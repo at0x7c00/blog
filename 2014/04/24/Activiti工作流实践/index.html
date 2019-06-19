@@ -1,0 +1,837 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Activiti,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="配置首先，配置processEngineConfiguration： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051&amp;lt;bean id=&quot;processEngineConfiguration&quot; class=&quot;org.activiti.spring.Spri">
+<meta name="keywords" content="Activiti">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Activiti工作流实践">
+<meta property="og:url" content="http://blog.huqiao.me/2014/04/24/Activiti工作流实践/index.html">
+<meta property="og:site_name" content="0x7c00">
+<meta property="og:description" content="配置首先，配置processEngineConfiguration： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051&amp;lt;bean id=&quot;processEngineConfiguration&quot; class=&quot;org.activiti.spring.Spri">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-19T06:55:04.299Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Activiti工作流实践">
+<meta name="twitter:description" content="配置首先，配置processEngineConfiguration： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051&amp;lt;bean id=&quot;processEngineConfiguration&quot; class=&quot;org.activiti.spring.Spri">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.huqiao.me/2014/04/24/Activiti工作流实践/">
+
+
+
+
+
+
+  <title> Activiti工作流实践 | 0x7c00 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b13ef012c32ee43fe12c462e5903105e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">0x7c00</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">A low level programmer</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          <form id="search-form">
+	    <input type="text" id="local-search-input" name="q" results="0" placeholder="搜索" class="search form-control" autocomplete="off" autocorrect="off">
+	    <i class="fa fa-times" onclick="resetSearch()"></i>
+	</form>
+	<div id="local-search-result"></div> 
+	<p class="no-result">No results found </p>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://blog.huqiao.me/2014/04/24/Activiti工作流实践/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="by 0x7c00">
+    <meta itemprop="description" content>
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="0x7c00">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="0x7c00" src>
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Activiti工作流实践
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>辅导费辅导费
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2014-04-24T16:26:00+08:00">
+                2014-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+		  
+		  
+			  <span class="post-updated">
+				&nbsp; | &nbsp; 更新于
+				<time itemprop="dateUpdated" datetime="2019-06-19T14:55:04+08:00" content="2019-06-19">
+				  2019-06-19
+				</time>
+			  </span>
+		  
+
+          
+            <span class="post-category">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工作流/" itemprop="url" rel="index">
+                    <span itemprop="name">工作流</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2014/04/24/Activiti工作流实践/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/04/24/Activiti工作流实践/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>首先，配置processEngineConfiguration：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"processEngineConfiguration"</span> <span class="attr">class</span>=<span class="string">"org.activiti.spring.SpringProcessEngineConfiguration"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"transactionManager"</span> <span class="attr">ref</span>=<span class="string">"transactionManager"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"databaseSchemaUpdate"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jobExecutorActivate"</span> <span class="attr">value</span>=<span class="string">"false"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--&lt;property name="history" value="full"/&gt;--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"processDefinitionCacheLimit"</span> <span class="attr">value</span>=<span class="string">"10"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- UUID作为主键生成策略</span></span><br><span class="line"><span class="comment">    &lt;property name="idGenerator" ref="uuidGenerator" /&gt;</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 生成流程图的字体 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"activityFontName"</span> <span class="attr">value</span>=<span class="string">"$&#123;diagram.activityFontName&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"labelFontName"</span> <span class="attr">value</span>=<span class="string">"$&#123;diagram.labelFontName&#125;"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 缓存支持</span></span><br><span class="line"><span class="comment">    &lt;property name="processDefinitionCache"&gt;</span></span><br><span class="line"><span class="comment">        &lt;bean class="me.kafeitu.demo.activiti.util.cache.DistributedCache" /&gt;</span></span><br><span class="line"><span class="comment">    &lt;/property&gt;--&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 自动部署 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"deploymentResources"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>classpath*:/deployments/*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 自定义表单字段类型 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"customFormTypes"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"me.kafeitu.demo.activiti.activiti.form.UsersFormType"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- JPA --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jpaEntityManagerFactory"</span> <span class="attr">ref</span>=<span class="string">"entityManagerFactory"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jpaHandleTransaction"</span> <span class="attr">value</span>=<span class="string">"false"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jpaCloseEntityManager"</span> <span class="attr">value</span>=<span class="string">"false"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 全局事件 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"typedEventListeners"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">map</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">"VARIABLE_CREATED"</span> &gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">"variableCreateListener"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">entry</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">map</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>然后，根据这个配置来生成流程引擎：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"processEngine"</span> <span class="attr">class</span>=<span class="string">"org.activiti.spring.ProcessEngineFactoryBean"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"processEngineConfiguration"</span> <span class="attr">ref</span>=<span class="string">"processEngineConfiguration"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>最后，通过流程引擎获取关于仓库、运行、表单、身份认证、任务、历史等相关操作服务：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"repositoryService"</span> <span class="attr">factory-bean</span>=<span class="string">"processEngine"</span> <span class="attr">factory-method</span>=<span class="string">"getRepositoryService"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"runtimeService"</span> <span class="attr">factory-bean</span>=<span class="string">"processEngine"</span> <span class="attr">factory-method</span>=<span class="string">"getRuntimeService"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"formService"</span> <span class="attr">factory-bean</span>=<span class="string">"processEngine"</span> <span class="attr">factory-method</span>=<span class="string">"getFormService"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"identityService"</span> <span class="attr">factory-bean</span>=<span class="string">"processEngine"</span> <span class="attr">factory-method</span>=<span class="string">"getIdentityService"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"taskService"</span> <span class="attr">factory-bean</span>=<span class="string">"processEngine"</span> <span class="attr">factory-method</span>=<span class="string">"getTaskService"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"historyService"</span> <span class="attr">factory-bean</span>=<span class="string">"processEngine"</span> <span class="attr">factory-method</span>=<span class="string">"getHistoryService"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"managementService"</span> <span class="attr">factory-bean</span>=<span class="string">"processEngine"</span> <span class="attr">factory-method</span>=<span class="string">"getManagementService"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="流程定义"><a href="#流程定义" class="headerlink" title="流程定义"></a>流程定义</h1><h2 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h2><p>最多的部署方式为上传流程定义文件来部署，RepositoryService中提供了多种部署方式，其中包括从输入流、classpath资源文件等方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> String fileName = file.getOriginalFilename();</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    InputStream fileInputStream = file.getInputStream();</span><br><span class="line">    Deployment deployment = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    String extension = FilenameUtils.getExtension(fileName);</span><br><span class="line">    <span class="keyword">if</span> (extension.equals(<span class="string">"zip"</span>) || extension.equals(<span class="string">"bar"</span>)) &#123;</span><br><span class="line">        ZipInputStream zip = <span class="keyword">new</span> ZipInputStream(fileInputStream);</span><br><span class="line">        deployment = repositoryService.createDeployment().addZipInputStream(zip).deploy();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        deployment = repositoryService.createDeployment().addInputStream(fileName, fileInputStream).deploy();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><p>Activityti提供链式api来进行查询操作，支持分页查询。一个对一个流程定义部署多次，会产生一个流程定义的多个版本而不是多个流程定义。可以看成流程定义和部署之间存在一对多的关联关系。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Object[]&gt; objects = <span class="keyword">new</span> ArrayList&lt;Object[]&gt;();</span><br><span class="line">Page&lt;Object[]&gt; page = <span class="keyword">new</span> Page&lt;Object[]&gt;(PageUtil.PAGE_SIZE);</span><br><span class="line"><span class="keyword">int</span>[] pageParams = PageUtil.init(page, request);</span><br><span class="line">ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery().orderByDeploymentId().desc();</span><br><span class="line">List&lt;ProcessDefinition&gt; processDefinitionList = processDefinitionQuery.listPage(pageParams[<span class="number">0</span>], pageParams[<span class="number">1</span>]);</span><br><span class="line"><span class="keyword">for</span> (ProcessDefinition processDefinition : processDefinitionList) &#123;</span><br><span class="line">    String deploymentId = processDefinition.getDeploymentId();</span><br><span class="line">    <span class="comment">//Deployment deployment = repositoryService.createDeploymentQuery().deploymentId(deploymentId).singleResult();</span></span><br><span class="line">    <span class="comment">//objects.add(new Object[]&#123;processDefinition, deployment&#125;);</span></span><br><span class="line">    <span class="keyword">for</span>(Deployment dep : repositoryService.createDeploymentQuery().deploymentId(deploymentId).list())&#123;</span><br><span class="line">    	objects.add(<span class="keyword">new</span> Object[]&#123;processDefinition, dep&#125;);</span><br><span class="line">    	System.out.println(deploymentId);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">repositoryService.deleteDeployment(deploymentId, <span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+<p>第二个参数为true时表示级联删除流程实例、历史记录和任务。也可以通过deleteDeploymentCascade（deploymentId）来级联删除。</p>
+<h2 id="启动流程"><a href="#启动流程" class="headerlink" title="启动流程"></a>启动流程</h2><p>可以使用RuntimeService来启动一个流程实例，启动流程实例的方式有很多种，主要涉及到</p>
+<p>processDefinitionId：流行定义id</p>
+<p>processDefinitionKey：流程定义关键字</p>
+<p>businessKey：业务关键字</p>
+<p>variables(Map)：流程变量</p>
+<p>tenantId：</p>
+<p>message：</p>
+<p>你可以根据不同的情况尝试组合使用上面的信息来启动一个流程实例。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 启动流程</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> entity</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ProcessInstance <span class="title">startWorkflow</span><span class="params">(Leave entity, Map&lt;String, Object&gt; variables)</span> </span>&#123;</span><br><span class="line">    leaveManager.saveLeave(entity);</span><br><span class="line">    String businessKey = entity.getId().toString();</span><br><span class="line">    ProcessInstance processInstance = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        identityService.setAuthenticatedUserId(entity.getUserId());</span><br><span class="line">        processInstance = runtimeService.startProcessInstanceByKey(<span class="string">"leave"</span>, businessKey, variables);</span><br><span class="line">        String processInstanceId = processInstance.getId();</span><br><span class="line">        entity.setProcessInstanceId(processInstanceId);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        identityService.setAuthenticatedUserId(<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> processInstance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>事实上，一个流程启动之后，流程当中并不关心实际的业务内容，而是人为地将这些业务变量放到了流程实例的”存储空间“当中，比如这里的businessKey和variables。真正当流程实例跑起来的时候，它也不关心具体的业务内容，这种关心被挪到了流程定义当中，而流程定义是用户来做的，从而将流程的运行和具体业务解耦出来。</p>
+<h2 id="待我处理"><a href="#待我处理" class="headerlink" title="待我处理"></a>待我处理</h2><p>TaskService提供了这样的查询API来查询与我相关的任务。TaskQuery中有多种方式来确定任务的所有者：</p>
+<p>和其他丰富的限制条件，这些任务查询出来之后，还需要与具体的业务对象关联，这样，在更上一层的处理上面对的只是业务对象，而不是工作流中的Task。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;Leave&gt; <span class="title">findTodoTasks</span><span class="params">(String userId, Page&lt;Leave&gt; page, <span class="keyword">int</span>[] pageParams)</span> </span>&#123;</span><br><span class="line">    List&lt;Leave&gt; results = <span class="keyword">new</span> ArrayList&lt;Leave&gt;();</span><br><span class="line">    List&lt;Task&gt; tasks = <span class="keyword">new</span> ArrayList&lt;Task&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根据当前人的ID查询</span></span><br><span class="line">    TaskQuery todoQuery = taskService.createTaskQuery().processDefinitionKey(<span class="string">"leave"</span>).taskAssignee(userId).active().orderByTaskId().desc()</span><br><span class="line">            .orderByTaskCreateTime().desc();</span><br><span class="line">    List&lt;Task&gt; todoList = todoQuery.listPage(pageParams[<span class="number">0</span>], pageParams[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根据当前人未签收的任务</span></span><br><span class="line">    TaskQuery claimQuery = taskService.createTaskQuery().processDefinitionKey(<span class="string">"leave"</span>).taskCandidateUser(userId).active().orderByTaskId().desc()</span><br><span class="line">            .orderByTaskCreateTime().desc();</span><br><span class="line">    List&lt;Task&gt; unsignedTasks = claimQuery.listPage(pageParams[<span class="number">0</span>], pageParams[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 合并</span></span><br><span class="line">    tasks.addAll(todoList);</span><br><span class="line">    tasks.addAll(unsignedTasks);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根据流程的业务ID查询实体并关联</span></span><br><span class="line">    <span class="keyword">for</span> (Task task : tasks) &#123;</span><br><span class="line">        String processInstanceId = task.getProcessInstanceId();</span><br><span class="line">        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).active().singleResult();</span><br><span class="line">        String businessKey = processInstance.getBusinessKey();</span><br><span class="line">        <span class="keyword">if</span> (businessKey == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Leave leave = leaveManager.getLeave(<span class="keyword">new</span> Long(businessKey));</span><br><span class="line">        leave.setTask(task);</span><br><span class="line">        leave.setProcessInstance(processInstance);</span><br><span class="line">        leave.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));</span><br><span class="line">        results.add(leave);</span><br><span class="line">    &#125;</span><br><span class="line">    page.setTotalCount(todoQuery.count() + claimQuery.count());</span><br><span class="line">    page.setResult(results);</span><br><span class="line">    <span class="keyword">return</span> results;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="任务签收"><a href="#任务签收" class="headerlink" title="任务签收"></a>任务签收</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">claim</span><span class="params">(String taskId, String userId)</span></span>;</span><br></pre></td></tr></table></figure>
+<h2 id="任务处理"><a href="#任务处理" class="headerlink" title="任务处理"></a>任务处理</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">taskService.complete(taskId, variables);</span><br></pre></td></tr></table></figure>
+<p>##　动态表单</p>
+<p>在之前的请假流程当中，可能因为我们对请假有比较特殊的，所以请假的核心对象Leave是由我们自己管理的，我们自己搞了个库来存放请假过程中的相关表单数据。但是更为通用和灵活的工作流，表单的内容应该是动态定义出来的，而不是事先由程序写好的。只有这样才能体现工作流引擎的最终目的。有了动态表单，每个节点上，有哪些字段、字段类型是什么、默认值、是否可见、是否可修改、是否必填等信息就可以动态定义了。</p>
+<h2 id="流程定义XML："><a href="#流程定义XML：" class="headerlink" title="流程定义XML："></a>流程定义XML：</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">process</span> <span class="attr">id</span>=<span class="string">"leave-dynamic-from"</span> <span class="attr">name</span>=<span class="string">"请假流程-动态表单"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">documentation</span>&gt;</span>请假流程演示-动态表单<span class="tag">&lt;/<span class="name">documentation</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">startEvent</span> <span class="attr">id</span>=<span class="string">"startevent1"</span> <span class="attr">name</span>=<span class="string">"Start"</span> <span class="attr">activiti:initiator</span>=<span class="string">"applyUserId"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">extensionElements</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activiti:formProperty</span> <span class="attr">id</span>=<span class="string">"startDate"</span> <span class="attr">name</span>=<span class="string">"请假开始日期"</span> <span class="attr">type</span>=<span class="string">"date"</span> <span class="attr">datePattern</span>=<span class="string">"yyyy-MM-dd"</span> <span class="attr">required</span>=<span class="string">"true"</span> <span class="attr">readable</span>=<span class="string">"true"</span> <span class="attr">writable</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activiti:formProperty</span> <span class="attr">id</span>=<span class="string">"endDate"</span> <span class="attr">name</span>=<span class="string">"请假结束日期"</span> <span class="attr">type</span>=<span class="string">"date"</span> <span class="attr">datePattern</span>=<span class="string">"yyyy-MM-dd"</span> <span class="attr">required</span>=<span class="string">"true"</span> <span class="attr">readable</span>=<span class="string">"true"</span> <span class="attr">writable</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activiti:formProperty</span> <span class="attr">id</span>=<span class="string">"reason"</span> <span class="attr">name</span>=<span class="string">"请假原因"</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">required</span>=<span class="string">"true"</span> <span class="attr">readable</span>=<span class="string">"true"</span> <span class="attr">writable</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">extensionElements</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">startEvent</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">userTask</span> <span class="attr">id</span>=<span class="string">"deptLeaderAudit"</span> <span class="attr">name</span>=<span class="string">"部门领导审批"</span> <span class="attr">activiti:candidateGroups</span>=<span class="string">"deptLeader"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">extensionElements</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activiti:formProperty</span> <span class="attr">id</span>=<span class="string">"startDate"</span> <span class="attr">name</span>=<span class="string">"请假开始日期"</span> <span class="attr">type</span>=<span class="string">"date"</span> <span class="attr">value</span>=<span class="string">"$&#123;startDate&#125;"</span> <span class="attr">datePattern</span>=<span class="string">"yyyy-MM-dd"</span> <span class="attr">readable</span>=<span class="string">"true"</span> <span class="attr">writable</span>=<span class="string">"false"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activiti:formProperty</span> <span class="attr">id</span>=<span class="string">"endDate"</span> <span class="attr">name</span>=<span class="string">"请假结束日期"</span> <span class="attr">type</span>=<span class="string">"date"</span> <span class="attr">value</span>=<span class="string">"$&#123;endDAte&#125;"</span> <span class="attr">datePattern</span>=<span class="string">"yyyy-MM-dd"</span> <span class="attr">readable</span>=<span class="string">"true"</span> <span class="attr">writable</span>=<span class="string">"false"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activiti:formProperty</span> <span class="attr">id</span>=<span class="string">"reason"</span> <span class="attr">name</span>=<span class="string">"请假原因"</span> <span class="attr">type</span>=<span class="string">"string"</span> <span class="attr">value</span>=<span class="string">"$&#123;reason&#125;"</span> <span class="attr">readable</span>=<span class="string">"true"</span> <span class="attr">writable</span>=<span class="string">"false"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activiti:formProperty</span> <span class="attr">id</span>=<span class="string">"deptLeaderPass"</span> <span class="attr">name</span>=<span class="string">"审批意见"</span> <span class="attr">type</span>=<span class="string">"enum"</span> <span class="attr">required</span>=<span class="string">"true"</span> <span class="attr">writable</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activiti:value</span> <span class="attr">id</span>=<span class="string">"true"</span> <span class="attr">name</span>=<span class="string">"同意"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activiti:value</span> <span class="attr">id</span>=<span class="string">"false"</span> <span class="attr">name</span>=<span class="string">"不同意"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activiti:formProperty</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">extensionElements</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">userTask</span>&gt;</span></span><br><span class="line">[......]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>疑问</strong>：这些动态表单字段的定义信息保存在哪儿的？</p>
+</blockquote>
+<h2 id="表单渲染"><a href="#表单渲染" class="headerlink" title="表单渲染"></a>表单渲染</h2><p>FormService中提供了按照processDefinitionId或者taskId来获取对应表单数据的方法：</p>
+<p>获取到表单数据之后，还能对其中每一项，根据其不同的数据类型进行处理，比如下面的代码中，对枚举类型的数据进行了整理，统一存放到了一个Map中，以供页面使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Object&gt; result = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</span><br><span class="line">StartFormDataImpl startFormData = (StartFormDataImpl) formService.getStartFormData(processDefinitionId);</span><br><span class="line">startFormData.setProcessDefinition(<span class="keyword">null</span>);</span><br><span class="line">List&lt;FormProperty&gt; formProperties = startFormData.getFormProperties();</span><br><span class="line"><span class="keyword">for</span> (FormProperty formProperty : formProperties) &#123;</span><br><span class="line">    Map&lt;String, String&gt; values = (Map&lt;String, String&gt;) formProperty.getType().getInformation(<span class="string">"values"</span>);</span><br><span class="line">    <span class="keyword">if</span> (values != <span class="keyword">null</span>) &#123;</span><br><span class="line">        result.put(<span class="string">"enum_"</span> + formProperty.getId(), values);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">result.put(<span class="string">"form"</span>, startFormData);</span><br></pre></td></tr></table></figure>
+<p>前台页面对于这样的数据及其类型（单行文本、多行文本域、下拉选择、日期、数字等等）动态生成一个表单。</p>
+<h2 id="表单数据搜集与存储"><a href="#表单数据搜集与存储" class="headerlink" title="表单数据搜集与存储"></a>表单数据搜集与存储</h2><p>这个也没没有社么特别的了，根据上一节中渲染出来的表单，填写数据，然后提交数据到后台即可了。关键是表单数据如何与流程引擎关联起来？很简单，因为我们之间渲染动态表单的时候其中所有字段的name都是按照表单定义来的，所以只要通过request.getParameterMap()，将这个参数键值对送给FormService就可以了，根本不用做其他多余的处理，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, String&gt; formProperties = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">Map&lt;String, String[]&gt; parameterMap = request.getParameterMap();</span><br><span class="line">Set&lt;Entry&lt;String, String[]&gt;&gt; entrySet = parameterMap.entrySet();</span><br><span class="line"><span class="keyword">for</span> (Entry&lt;String, String[]&gt; entry : entrySet) &#123;</span><br><span class="line">    String key = entry.getKey();</span><br><span class="line">    <span class="keyword">if</span> (StringUtils.defaultString(key).startsWith(<span class="string">"fp_"</span>)) &#123;</span><br><span class="line">        formProperties.put(key.split(<span class="string">"_"</span>)[<span class="number">1</span>], entry.getValue()[<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">User user = UserUtil.getUserFromSession(request.getSession());</span><br><span class="line">ProcessInstance processInstance = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    identityService.setAuthenticatedUserId(user.getId());</span><br><span class="line">    processInstance = formService.submitStartFormData(processDefinitionId, formProperties);</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    identityService.setAuthenticatedUserId(<span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码对于parameterMap还是稍微做了一点处理，这是因为前台页面中对于动态表单字段的的name都统一增加了fp_，这里要过滤只带有fp_的name值。从而起到一个过滤杂质，避免将其他没用的数据传递给FormService。</p>
+<p>这些数据最终被存放到哪里了呢？答案是数据库表ACT_RU_VARIABLE，没错，就是流程标量表中，和相对于动态表单的静态表单而言，动态表单唯一不同的是，动态表单把业务相关的数据也当成流程变量存放起来了，而静态表单是使用自己的表来存放业务数据。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/wechat_qcode.jpg" alt="by 0x7c00 wechat" style="width: 200px; max-width: 100%;">
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Activiti/" rel="tag"># Activiti</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/04/24/JSTL/" rel="next" title="JSTL">
+                <i class="fa fa-chevron-left"></i> JSTL
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/05/18/利用栈实现简单算术表达式求值/" rel="prev" title="利用栈实现简单算术表达式求值">
+                利用栈实现简单算术表达式求值 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="by 0x7c00">
+          <p class="site-author-name" itemprop="name">by 0x7c00</p>
+          <p class="site-description motion-element" itemprop="description">..</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">85</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xooxle" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/imhuqiao" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/imhuqiao" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/hu-qiao-87/" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-arrow-right"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/zoozle/" target="_blank" title="豆瓣">
+                  
+                    <i class="fa fa-fw fa-leaf"></i>
+                  
+                  豆瓣
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#配置"><span class="nav-number">1.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#流程定义"><span class="nav-number">2.</span> <span class="nav-text">流程定义</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#添加"><span class="nav-number">2.1.</span> <span class="nav-text">添加</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询"><span class="nav-number">2.2.</span> <span class="nav-text">查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除"><span class="nav-number">2.3.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动流程"><span class="nav-number">2.4.</span> <span class="nav-text">启动流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#待我处理"><span class="nav-number">2.5.</span> <span class="nav-text">待我处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务签收"><span class="nav-number">2.6.</span> <span class="nav-text">任务签收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务处理"><span class="nav-number">2.7.</span> <span class="nav-text">任务处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程定义XML："><span class="nav-number">2.8.</span> <span class="nav-text">流程定义XML：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表单渲染"><span class="nav-number">2.9.</span> <span class="nav-text">表单渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表单数据搜集与存储"><span class="nav-number">2.10.</span> <span class="nav-text">表单数据搜集与存储</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2011 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-globe"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zoozle@qq.com</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'huqiaos-blog';
+      var disqus_identifier = '2014/04/24/Activiti工作流实践/';
+
+      var disqus_title = "Activiti工作流实践";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript" src="/js/src/hexo-search.js"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+ 
+
+</body>
+</html>
