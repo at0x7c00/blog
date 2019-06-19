@@ -1,0 +1,565 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="胡桥的个人博客">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="首先定义一个AbstractRoutingDataSource，Spring给我们留了这样的接口，让我们方便的定义怎么切换数据源：123456789101112131415161718192021222324public class DynamicDataSource extends AbstractRoutingDataSource &amp;#123;	Logger logger = Logger.g">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Spring动态切换数据库">
+<meta property="og:url" content="http://blog.huqiao.me/posts_backup/Spring动态切换数据库.html">
+<meta property="og:site_name" content="0x7c00">
+<meta property="og:description" content="首先定义一个AbstractRoutingDataSource，Spring给我们留了这样的接口，让我们方便的定义怎么切换数据源：123456789101112131415161718192021222324public class DynamicDataSource extends AbstractRoutingDataSource &amp;#123;	Logger logger = Logger.g">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-19T06:55:04.315Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring动态切换数据库">
+<meta name="twitter:description" content="首先定义一个AbstractRoutingDataSource，Spring给我们留了这样的接口，让我们方便的定义怎么切换数据源：123456789101112131415161718192021222324public class DynamicDataSource extends AbstractRoutingDataSource &amp;#123;	Logger logger = Logger.g">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.huqiao.me/posts_backup/Spring动态切换数据库.html">
+
+
+
+
+
+
+  <title>
+  
+
+  
+    Spring动态切换数据库 | 0x7c00
+  
+</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b13ef012c32ee43fe12c462e5903105e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right  ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">0x7c00</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">A low level programmer</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          <form id="search-form">
+	    <input type="text" id="local-search-input" name="q" results="0" placeholder="搜索" class="search form-control" autocomplete="off" autocorrect="off">
+	    <i class="fa fa-times" onclick="resetSearch()"></i>
+	</form>
+	<div id="local-search-result"></div> 
+	<p class="no-result">No results found </p>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+  <header class="post-header">
+
+	<h2 class="post-title" itemprop="name headline">Spring动态切换数据库</h2>
+
+
+
+</header>
+
+    
+    
+      <p>首先定义一个AbstractRoutingDataSource，Spring给我们留了这样的接口，让我们方便的定义怎么切换数据源：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicDataSource</span> <span class="keyword">extends</span> <span class="title">AbstractRoutingDataSource</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	Logger logger = Logger.getAnonymousLogger();</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> Object <span class="title">determineCurrentLookupKey</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		String p = <span class="string">"a"</span>;</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();</span><br><span class="line">			p = request.getParameter(<span class="string">"dataSource"</span>);</span><br><span class="line">		&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(p==<span class="keyword">null</span>)&#123;</span><br><span class="line">			p=<span class="string">"a"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> p;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Logger <span class="title">getParentLogger</span><span class="params">()</span> <span class="keyword">throws</span> SQLFeatureNotSupportedException </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> logger;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以通过参数来确定到底使用哪个数据源，总的来说，你可以在你自己的AbstractRoutingDataSource中获取到HttpServletRequest，剩下的就是你自己发挥了。代码里对异常进行了catch，因为这里可能会抛No thread-bound request found的异常，具体什么原因不确定，但是等系统跑起来之后（也就是真的从web访问的时候）可以正常运行。</p>
+<p>下面是Spring对sessionFactory的配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"faceDataSource"</span> <span class="attr">class</span>=<span class="string">"test.MyRoutingDataSource"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetDataSources"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">map</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">"a"</span> <span class="attr">value-ref</span>=<span class="string">"dataSource1"</span> /&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">"b"</span> <span class="attr">value-ref</span>=<span class="string">"dataSource2"</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">map</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"defaultTargetDataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource1"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSource1"</span> <span class="attr">class</span>=<span class="string">"com.mchange.v2.c3p0.ComboPooledDataSource"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClass"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.driverClassName1&#125;"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jdbcUrl"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.url1&#125;"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.username1&#125;"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.password1&#125;"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"preferredTestQuery"</span> <span class="attr">value</span>=<span class="string">"$&#123;preferredTestQuery&#125;"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"idleConnectionTestPeriod"</span> <span class="attr">value</span>=<span class="string">"$&#123;idleConnectionTestPeriod&#125;"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testConnectionOnCheckout"</span> <span class="attr">value</span>=<span class="string">"$&#123;testConnectionOnCheckout&#125;"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSource2"</span> <span class="attr">class</span>=<span class="string">"com.mchange.v2.c3p0.ComboPooledDataSource"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClass"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.driverClassName2&#125;"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jdbcUrl"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.url2&#125;"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.username2&#125;"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.password2&#125;"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"preferredTestQuery"</span> <span class="attr">value</span>=<span class="string">"$&#123;preferredTestQuery&#125;"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"idleConnectionTestPeriod"</span> <span class="attr">value</span>=<span class="string">"$&#123;idleConnectionTestPeriod&#125;"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testConnectionOnCheckout"</span> <span class="attr">value</span>=<span class="string">"$&#123;testConnectionOnCheckout&#125;"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span> </span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sessionFactory"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">class</span>=<span class="string">"org.springframework.orm.hibernate4.LocalSessionFactoryBean"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"faceDataSource"</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernateProperties"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"hibernate.dialect"</span>&gt;</span>$&#123;hibernate.dialect&#125;<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"hibernate.hbm2ddl.auto"</span>&gt;</span>$&#123;hibernate.hbm2ddl.auto&#125;<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"hibernate.max_fetch_depth"</span>&gt;</span>$&#123;hibernate.maxFetchDepth&#125;<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"hibernate.show_sql"</span>&gt;</span>$&#123;hibernate.show_sql&#125;<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"hibernate.format_sql"</span>&gt;</span>$&#123;hibernate.format_sql&#125;<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"hibernate.jdbc.batch_size"</span>&gt;</span>$&#123;hibernate.jdbc.batch_size&#125;<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"hibernate.cache.use_query_cache"</span>&gt;</span>$&#123;cache.use_query_cache&#125;<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"hibernate.cache.use_second_level_cache"</span>&gt;</span>$&#123;cache.use_second_level_cache&#125;<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"hibernate.cache.region.factory_class"</span>&gt;</span>$&#123;hibernate.cache.region.factory_class&#125;<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"hibernate.temp.use_jdbc_metadata_defaults"</span>&gt;</span>$&#123;hibernate.temp.use_jdbc_metadata_defaults&#125;<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"packagesToScan"</span> <span class="attr">value</span>=<span class="string">"com.novots.bros.*.entity"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>到目前为止，在几个静态的数据库之间切换已经没有问题了。<br>没多久，客户又提出，数据库可能是动态增加进来的。而不是想上面那样固定的几个数据库。<br>几番查找，找到了一个可以动态增加数据源的东西：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dynamicBeanReader"</span> <span class="attr">class</span>=<span class="string">"cn.chinacti.crm.dynamicdatasource.entity.DynamicBeanReaderImpl"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">init-method</span>=<span class="string">"init"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>此一段，将引出很多故事：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicBeanReaderImpl</span> <span class="keyword">implements</span> <span class="title">DynamicBeanReader</span>,<span class="title">ApplicationContextAware</span></span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Log logger = LogFactory.getLog(DynamicBeanReaderImpl.class);<span class="comment">//日记  </span></span><br><span class="line">      </span><br><span class="line">    <span class="keyword">private</span> ConfigurableApplicationContext applicationContext = <span class="keyword">null</span>;    </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">private</span> XmlBeanDefinitionReader beanDefinitionReader;  </span><br><span class="line">    <span class="comment">/*初始化方法*/</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;  </span><br><span class="line">        beanDefinitionReader = <span class="keyword">new</span> XmlBeanDefinitionReader((BeanDefinitionRegistry)  </span><br><span class="line">                applicationContext.getBeanFactory());    </span><br><span class="line">        beanDefinitionReader.setEntityResolver(<span class="keyword">new</span> ResourceEntityResolver(applicationContext));    </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setApplicationContext</span><span class="params">(ApplicationContext applicationContext)</span> <span class="keyword">throws</span> BeansException </span>&#123;    </span><br><span class="line">        <span class="keyword">this</span>.applicationContext = (ConfigurableApplicationContext)applicationContext;    </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadBean</span><span class="params">(DynamicBean dynamicBean)</span></span>&#123;   </span><br><span class="line">        <span class="keyword">long</span> startTime = System.currentTimeMillis();  </span><br><span class="line">        String beanName = dynamicBean.getBeanName();  </span><br><span class="line">        <span class="keyword">if</span>(applicationContext.containsBean(beanName))&#123;  </span><br><span class="line">            logger.warn(<span class="string">"bean【"</span>+beanName+<span class="string">"】已经加载！"</span>);  </span><br><span class="line">            <span class="keyword">return</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        beanDefinitionReader.loadBeanDefinitions(<span class="keyword">new</span> DynamicResource(dynamicBean));  </span><br><span class="line">        logger.info(<span class="string">"初始化bean【"</span>+dynamicBean.getBeanName()+<span class="string">"】耗时"</span>+(System.currentTimeMillis()-startTime)+<span class="string">"毫秒。"</span>);  </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里利用ApplicationContextAware创建一个beanDefinitionReader，通过 beanDefinitionReader可以动态加载loadbean对象到application context中。beanDefinitionReader需要一个Resource对象：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicResource</span> <span class="keyword">implements</span> <span class="title">Resource</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> DynamicBean dynamicBean;  </span><br><span class="line">      </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DynamicResource</span><span class="params">(DynamicBean dynamicBean)</span></span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.dynamicBean = dynamicBean;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="comment">/* (non-Javadoc) </span></span><br><span class="line"><span class="comment">     * @see org.springframework.core.io.InputStreamSource#getInputStream() </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> InputStream <span class="title">getInputStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ByteArrayInputStream(dynamicBean.getXml().getBytes(<span class="string">"UTF-8"</span>));  </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>DynamicBean的功能无非是组装bean的xml定义字符串：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> * 动态bean描述对象 </span></span><br><span class="line"><span class="comment"> */</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicBean</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">protected</span> String beanName;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DynamicBean</span><span class="params">(String beanName)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.beanName = beanName;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getBeanName</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> beanName;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBeanName</span><span class="params">(String beanName)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.beanName = beanName;  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">     * 获取bean 的xml描述 </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> String <span class="title">getBeanXml</span><span class="params">()</span></span>;  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">     * 生成完整的xml字符串 </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getXml</span><span class="params">()</span></span>&#123;  </span><br><span class="line">        StringBuffer buf = <span class="keyword">new</span> StringBuffer();  </span><br><span class="line">        buf.append(<span class="string">"&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt;"</span>)  </span><br><span class="line">            .append(<span class="string">"&lt;beans xmlns=\"http://www.springframework.org/schema/beans\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""</span>)  </span><br><span class="line">            .append(<span class="string">"       xmlns:p=\"http://www.springframework.org/schema/p\" xmlns:aop=\"http://www.springframework.org/schema/aop\""</span>)  </span><br><span class="line">            .append(<span class="string">"       xmlns:context=\"http://www.springframework.org/schema/context\" xmlns:jee=\"http://www.springframework.org/schema/jee\""</span>)  </span><br><span class="line">            .append(<span class="string">"       xmlns:tx=\"http://www.springframework.org/schema/tx\""</span>)  </span><br><span class="line">            .append(<span class="string">"       xsi:schemaLocation=\""</span>)  </span><br><span class="line">            .append(<span class="string">"           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"</span>)  </span><br><span class="line">            .append(<span class="string">"           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"</span>)  </span><br><span class="line">            .append(<span class="string">"           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"</span>)  </span><br><span class="line">            .append(<span class="string">"           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd"</span>)  </span><br><span class="line">            .append(<span class="string">"           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd\"&gt;"</span>)  </span><br><span class="line">            .append(getBeanXml())  </span><br><span class="line">            .append(<span class="string">"&lt;/beans&gt;"</span>);  </span><br><span class="line">        System.out.println(getBeanXml());</span><br><span class="line">        <span class="keyword">return</span> buf.toString();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataSourceDynamicBean</span> <span class="keyword">extends</span> <span class="title">DynamicBean</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> String driverClassName;  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">private</span> String url;  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">private</span> String username;  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">private</span> String password;  </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> String preferredTestQuery;</span><br><span class="line">    <span class="keyword">private</span> String idleConnectionTestPeriod;</span><br><span class="line">    <span class="keyword">private</span> String testConnectionOnCheckout;</span><br><span class="line">    <span class="keyword">private</span> String testConnectionOnCheckin;</span><br><span class="line">      </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DataSourceDynamicBean</span><span class="params">(String beanName)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">super</span>(beanName);  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="comment">/* (non-Javadoc) </span></span><br><span class="line"><span class="comment">     * @see org.youi.common.bean.DynamicBean#getBeanXml() </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">getBeanXml</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        StringBuffer xmlBuf = <span class="keyword">new</span> StringBuffer();  </span><br><span class="line">        </span><br><span class="line">        xmlBuf.append(<span class="string">"&lt;bean id=\""</span>).append(beanName).append(<span class="string">"\" class=\"com.mchange.v2.c3p0.ComboPooledDataSource\" destroy-method=\"close\"&gt;"</span>);</span><br><span class="line">        xmlBuf.append(<span class="string">"&lt;property name=\"driverClass\" value=\""</span>).append(driverClassName).append(<span class="string">"\" /&gt;"</span>);</span><br><span class="line">        xmlBuf.append(<span class="string">"&lt;property name=\"jdbcUrl\" value=\""</span>).append(url).append(<span class="string">"\"/&gt;"</span>);</span><br><span class="line">        xmlBuf.append(<span class="string">"&lt;property name=\"user\" value=\""</span>).append(username).append(<span class="string">"\"/&gt;"</span>);</span><br><span class="line">        xmlBuf.append(<span class="string">"&lt;property name=\"password\" value=\""</span>).append(password).append(<span class="string">"\" /&gt;"</span>);</span><br><span class="line">        xmlBuf.append(<span class="string">"&lt;property name=\"preferredTestQuery\" value=\""</span>).append(preferredTestQuery).append(<span class="string">"\"/&gt;"</span>);</span><br><span class="line">        xmlBuf.append(<span class="string">"&lt;property name=\"idleConnectionTestPeriod\" value=\""</span>).append(idleConnectionTestPeriod).append(<span class="string">"\"/&gt;"</span>);</span><br><span class="line">        xmlBuf.append(<span class="string">"&lt;property name=\"testConnectionOnCheckout\" value=\""</span>).append(testConnectionOnCheckout).append(<span class="string">"\"/&gt;"</span>);</span><br><span class="line">        xmlBuf.append(<span class="string">"&lt;property name=\"testConnectionOnCheckin\" value=\""</span>).append(testConnectionOnCheckin).append(<span class="string">"\"/&gt;"</span>);</span><br><span class="line">        xmlBuf.append(<span class="string">"&lt;/bean&gt;"</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/*xmlBuf.append("&lt;bean id=\""+beanName+"\" class=\"com.mchange.v2.c3p0.ComboPooledDataSource\" destroy-method=\"close\"")  </span></span><br><span class="line"><span class="comment">            .append(" p:driverClassName=\""+driverClassName+"\" ")  </span></span><br><span class="line"><span class="comment">            .append(" p:url=\""+url+"\"")</span></span><br><span class="line"><span class="comment">            .append(" p:username=\""+username+"\"")  </span></span><br><span class="line"><span class="comment">            .append(" p:password=\""+password+"\"/&gt;");*/</span>  </span><br><span class="line">        <span class="keyword">return</span> xmlBuf.toString();  </span><br><span class="line">    &#125;</span><br><span class="line">      </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDriverClassName</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> driverClassName;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDriverClassName</span><span class="params">(String driverClassName)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.driverClassName = driverClassName;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUrl</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> url;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUrl</span><span class="params">(String url)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.url = url;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> username;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String username)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.username = username;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPassword</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> password;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPassword</span><span class="params">(String password)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.password = password;  </span><br><span class="line">    &#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getPreferredTestQuery</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> preferredTestQuery;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPreferredTestQuery</span><span class="params">(String preferredTestQuery)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.preferredTestQuery = preferredTestQuery;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getIdleConnectionTestPeriod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> idleConnectionTestPeriod;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setIdleConnectionTestPeriod</span><span class="params">(String idleConnectionTestPeriod)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.idleConnectionTestPeriod = idleConnectionTestPeriod;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getTestConnectionOnCheckout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> testConnectionOnCheckout;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTestConnectionOnCheckout</span><span class="params">(String testConnectionOnCheckout)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.testConnectionOnCheckout = testConnectionOnCheckout;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getTestConnectionOnCheckin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> testConnectionOnCheckin;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTestConnectionOnCheckin</span><span class="params">(String testConnectionOnCheckin)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.testConnectionOnCheckin = testConnectionOnCheckin;</span><br><span class="line">	&#125;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个数据源默认使用的是c3p0，你可以根据自己的喜好修改。<br>OK，这个故事从这里就到头了。</p>
+<p>回到故事的开始，谁来使用这个dynamicBeanReader呢？答案是最开始看到的DynamicDataSource，思路是，我需要用这个reader动态修改这个faceDatasources中的datasource Map，这个Map刚开始可能是空的：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"cn.chinacti.crm.dynamicdatasource.DynamicDataSource"</span> <span class="attr">id</span>=<span class="string">"faceDataSource"</span>&gt;</span>  </span><br><span class="line">	    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetDataSources"</span>&gt;</span></span><br><span class="line">	       <span class="tag">&lt;<span class="name">map</span> <span class="attr">key-type</span>=<span class="string">"java.lang.String"</span>&gt;</span></span><br><span class="line">	            <span class="comment">&lt;!-- &lt;entry value-ref="defaultLocalhost" key="crmDataSource"&gt;&lt;/entry&gt;   --&gt;</span></span><br><span class="line">	       <span class="tag">&lt;/<span class="name">map</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dynamicBeanReader"</span> <span class="attr">ref</span>=<span class="string">"dynamicBeanReader"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line">	    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"defaultTargetDataSource"</span> <span class="attr">ref</span>=<span class="string">"crmDataSource"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dbName"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.common.dbName&#125;"</span>/&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"port"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.common.port&#125;"</span>/&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"pwd"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.common.pwd&#125;"</span>/&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"userName"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.common.user&#125;"</span>/&gt;</span></span><br><span class="line">	    </span><br><span class="line">	    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"preferredTestQuery"</span> <span class="attr">value</span>=<span class="string">"$&#123;preferredTestQuery&#125;"</span>/&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"idleConnectionTestPeriod"</span> <span class="attr">value</span>=<span class="string">"$&#123;idleConnectionTestPeriod&#125;"</span>/&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testConnectionOnCheckout"</span> <span class="attr">value</span>=<span class="string">"$&#123;testConnectionOnCheckout&#125;"</span>/&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testConnectionOnCheckin"</span> <span class="attr">value</span>=<span class="string">"$&#123;testConnectionOnCheckin&#125;"</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>问题是AbstractRoutingDataSource貌似没有提供直接访问内置datasource map的功能，那么只能通过反射来搞了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicDataSource</span> <span class="keyword">extends</span> <span class="title">AbstractRoutingDataSource</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	Logger logger = Logger.getAnonymousLogger();</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> DynamicBeanReader dynamicBeanReader;</span><br><span class="line">	<span class="keyword">private</span> String dbName;</span><br><span class="line">	<span class="keyword">private</span> String port;</span><br><span class="line">	<span class="keyword">private</span> String userName;</span><br><span class="line">	<span class="keyword">private</span> String pwd;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">private</span> String preferredTestQuery;</span><br><span class="line">    <span class="keyword">private</span> String idleConnectionTestPeriod;</span><br><span class="line">    <span class="keyword">private</span> String testConnectionOnCheckout;</span><br><span class="line">    <span class="keyword">private</span> String testConnectionOnCheckin;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> Object <span class="title">determineCurrentLookupKey</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		String ip = <span class="keyword">null</span>;</span><br><span class="line">		String dsName = <span class="keyword">null</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();</span><br><span class="line">			ip = (String)request.getSession().getAttribute(<span class="string">"ip"</span>);</span><br><span class="line">			<span class="keyword">if</span>(ip==<span class="keyword">null</span> )&#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			dsName = createDSNameByIp(ip);</span><br><span class="line">			ServletContext sc = request.getSession().getServletContext();</span><br><span class="line">			DataSource ds = getByDSName(dsName,sc);</span><br><span class="line">			logger.info(<span class="string">"get datasource by name :"</span>+ds);</span><br><span class="line">			logger.info(<span class="string">"ip:"</span>+ip);</span><br><span class="line">			<span class="keyword">if</span>(ds==<span class="keyword">null</span>)&#123;<span class="comment">//还没创建</span></span><br><span class="line">				ds = createNewDataSource(ip, dbName, port, userName, pwd,sc);</span><br><span class="line">				addToTargetDataSources(ds,dsName);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">			logger.info(e.getMessage());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> dsName;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addToTargetDataSources</span><span class="params">(DataSource ds, String dsName)</span> </span>&#123;</span><br><span class="line">		Class clazz = AbstractRoutingDataSource.class;</span><br><span class="line">		Field targetDataSourcesField;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			targetDataSourcesField = clazz.getDeclaredField(<span class="string">"resolvedDataSources"</span>);</span><br><span class="line">			targetDataSourcesField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">			Map&lt;Object,Object&gt; targetDataSources = (Map&lt;Object, Object&gt;) targetDataSourcesField.get(<span class="keyword">this</span>);</span><br><span class="line">			targetDataSources.put(dsName, ds);</span><br><span class="line">			targetDataSourcesField.set(<span class="keyword">this</span>, targetDataSources);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			logger.info(<span class="string">"修改resolvedDataSources时报错了"</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		logger.info(<span class="string">"add datasource to resolvedDataSources success."</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Logger <span class="title">getParentLogger</span><span class="params">()</span> <span class="keyword">throws</span> SQLFeatureNotSupportedException </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> logger;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Connection <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">		Connection conn = <span class="keyword">super</span>.getConnection();</span><br><span class="line">		<span class="keyword">return</span> conn;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> DataSource <span class="title">createNewDataSource</span><span class="params">(String ip,String dbName,String port,String user,String pwd,ServletContext sc)</span></span>&#123;</span><br><span class="line">		String beanName = createDSNameByIp(ip);</span><br><span class="line">		DataSourceDynamicBean dataSourceDynamicBean = <span class="keyword">new</span> DataSourceDynamicBean(beanName);  </span><br><span class="line">        dataSourceDynamicBean.setDriverClassName(<span class="string">"com.mysql.jdbc.Driver"</span>);  </span><br><span class="line">        dataSourceDynamicBean.setUrl(<span class="string">"jdbc:mysql://"</span>+ip+<span class="string">":"</span>+port+<span class="string">"/"</span>+dbName+<span class="string">"?useUnicode=true&amp;characterEncoding=utf-8"</span>);  </span><br><span class="line">        dataSourceDynamicBean.setUsername(user);</span><br><span class="line">        dataSourceDynamicBean.setPassword(pwd);</span><br><span class="line">        </span><br><span class="line">        dataSourceDynamicBean.setPreferredTestQuery(<span class="keyword">this</span>.preferredTestQuery);</span><br><span class="line">        dataSourceDynamicBean.setIdleConnectionTestPeriod(<span class="keyword">this</span>.idleConnectionTestPeriod);</span><br><span class="line">        dataSourceDynamicBean.setTestConnectionOnCheckin(<span class="keyword">this</span>.testConnectionOnCheckin);</span><br><span class="line">        dataSourceDynamicBean.setTestConnectionOnCheckout(<span class="keyword">this</span>.testConnectionOnCheckout);</span><br><span class="line">        </span><br><span class="line">        dynamicBeanReader.loadBean(dataSourceDynamicBean);<span class="comment">//动态记载dataSource</span></span><br><span class="line">        logger.info(<span class="string">"create datasource:beanName="</span>+beanName+<span class="string">"ip="</span>+ip+<span class="string">""</span>);</span><br><span class="line">        <span class="keyword">return</span> (DataSource) getApplicationContext(sc).getBean(beanName);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> String <span class="title">createDSNameByIp</span><span class="params">(String ip)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"ds"</span>+ip.replaceAll(<span class="string">"\\."</span>, <span class="string">""</span>) ;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> DataSource <span class="title">getByDSName</span><span class="params">(String dsName,ServletContext sc)</span></span>&#123;</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> (DataSource) getApplicationContext(sc).getBean(dsName);</span><br><span class="line">		&#125;<span class="keyword">catch</span>(NoSuchBeanDefinitionException e)&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> ApplicationContext <span class="title">getApplicationContext</span><span class="params">(ServletContext sc)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> WebApplicationContextUtils.getWebApplicationContext(sc);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> DynamicBeanReader <span class="title">getDynamicBeanReader</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> dynamicBeanReader;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDynamicBeanReader</span><span class="params">(DynamicBeanReader dynamicBeanReader)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.dynamicBeanReader = dynamicBeanReader;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getDbName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> dbName;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDbName</span><span class="params">(String dbName)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.dbName = dbName;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getPort</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> port;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPort</span><span class="params">(String port)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.port = port;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getUserName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> userName;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUserName</span><span class="params">(String userName)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.userName = userName;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getPwd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> pwd;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPwd</span><span class="params">(String pwd)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.pwd = pwd;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getPreferredTestQuery</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> preferredTestQuery;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPreferredTestQuery</span><span class="params">(String preferredTestQuery)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.preferredTestQuery = preferredTestQuery;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getIdleConnectionTestPeriod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> idleConnectionTestPeriod;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setIdleConnectionTestPeriod</span><span class="params">(String idleConnectionTestPeriod)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.idleConnectionTestPeriod = idleConnectionTestPeriod;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getTestConnectionOnCheckout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> testConnectionOnCheckout;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTestConnectionOnCheckout</span><span class="params">(String testConnectionOnCheckout)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.testConnectionOnCheckout = testConnectionOnCheckout;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getTestConnectionOnCheckin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> testConnectionOnCheckin;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTestConnectionOnCheckin</span><span class="params">(String testConnectionOnCheckin)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.testConnectionOnCheckin = testConnectionOnCheckin;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>原理很简单，AbstractRoutingDataSource本来只是提供了一个口子，说你来决定到底用哪个Key去查找我的Map中的数据源。结果呢，我在查找这个Key的途中，借机使用dynamicBeanReader新建了一个dataSource并成功放到了AbstractRoutingDataSource的datasouce map中（当然，先查查有没有，有就不用创建了）。之后，在返回给AbstractRoutingDataSource一个Key的同时，我确定一定能拿到我想要的dataSource了。 </strong></p>
+<p><strong>遗留问题：</strong></p>
+<p>在系统启动的时候，根本没有web环境，所以根据前台参数来决定用哪一个库无从谈起。并且faceDataSource必须有一个默认数据源，也就是在系统启动的时候，系统要求一定能从faceDataSource中拿到一个确切的数据源。否则就会抛出异常，这和本身的业务逻辑是相违背的。</p>
+
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="by 0x7c00">
+          <p class="site-author-name" itemprop="name">by 0x7c00</p>
+          <p class="site-description motion-element" itemprop="description">..</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2011 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-globe"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zoozle@qq.com</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'huqiaos-blog';
+      var disqus_identifier = 'posts_backup/Spring动态切换数据库.html';
+
+      var disqus_title = "Spring动态切换数据库";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript" src="/js/src/hexo-search.js"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+ 
+
+</body>
+</html>

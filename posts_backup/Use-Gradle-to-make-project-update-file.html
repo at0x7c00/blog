@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="胡桥的个人博客">
+  <meta name="keywords" content=",,">
 
 
 
@@ -80,17 +80,18 @@
 
 
 
-<meta name="description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta name="description" content="安装Gradle参考这里:https://gradle.org/install。 打包脚本在Tomcat下创建一个build.gradle文件：12345678910111213141516task zipRoot(type:Zip) &amp;#123; archiveName &quot;Update-file.zip&quot; from (&apos;webapps&apos;) exclude( &apos;docs&apos;, &apos;examples&apos;,">
+<meta name="keywords" content="Gradle,持续集成">
 <meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://blog.huqiao.me/about/index.html">
+<meta property="og:title" content="使用Gradle快速生成项目升级文件">
+<meta property="og:url" content="http://blog.huqiao.me/posts_backup/Use-Gradle-to-make-project-update-file.html">
 <meta property="og:site_name" content="0x7c00">
-<meta property="og:description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta property="og:description" content="安装Gradle参考这里:https://gradle.org/install。 打包脚本在Tomcat下创建一个build.gradle文件：12345678910111213141516task zipRoot(type:Zip) &amp;#123; archiveName &quot;Update-file.zip&quot; from (&apos;webapps&apos;) exclude( &apos;docs&apos;, &apos;examples&apos;,">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-19T06:55:04.358Z">
+<meta property="og:updated_time" content="2019-06-19T06:55:04.319Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta name="twitter:title" content="使用Gradle快速生成项目升级文件">
+<meta name="twitter:description" content="安装Gradle参考这里:https://gradle.org/install。 打包脚本在Tomcat下创建一个build.gradle文件：12345678910111213141516task zipRoot(type:Zip) &amp;#123; archiveName &quot;Update-file.zip&quot; from (&apos;webapps&apos;) exclude( &apos;docs&apos;, &apos;examples&apos;,">
 
 
 
@@ -118,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.huqiao.me/about/">
+  <link rel="canonical" href="http://blog.huqiao.me/posts_backup/Use-Gradle-to-make-project-update-file.html">
 
 
 
@@ -129,7 +130,7 @@
   
 
   
-    关于 | 0x7c00
+    使用Gradle快速生成项目升级文件 | 0x7c00
   
 </title>
 </head>
@@ -286,7 +287,7 @@
   <div id="posts" class="posts-expand">
   <header class="post-header">
 
-	<h2 class="post-title" itemprop="name headline">关于</h2>
+	<h2 class="post-title" itemprop="name headline">使用Gradle快速生成项目升级文件</h2>
 
 
 
@@ -294,13 +295,11 @@
 
     
     
-      <p>农户，进城务工人员，北漂，程序员。</p>
-<p>平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。</p>
-<p>有幸相遇，与君共勉 ：</p>
-<p>1.多读书，多思考，才会进步！</p>
-<p>2.懂得知足和感恩，懂得体会生活的乐趣，一切才会有意义。</p>
-<p>3.紧跟时代潮流，更新自己的思想和工具集。技术学习，不进则退。</p>
-<p>4.生命不在于一时的璀璨，而在于长久的积累，所谓欲速则不达，今天的质量决定未来结果，一点一滴都影响深远。</p>
+      <h1 id="安装Gradle"><a href="#安装Gradle" class="headerlink" title="安装Gradle"></a>安装Gradle</h1><p>参考这里:<a href="https://gradle.org/install" target="_blank" rel="noopener">https://gradle.org/install</a>。</p>
+<h1 id="打包脚本"><a href="#打包脚本" class="headerlink" title="打包脚本"></a>打包脚本</h1><p>在Tomcat下创建一个build.gradle文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">task zipRoot(<span class="built_in">type</span>:Zip) &#123;</span><br><span class="line"> archiveName <span class="string">"Update-file.zip"</span></span><br><span class="line"> from (<span class="string">'webapps'</span>)</span><br><span class="line"> exclude(</span><br><span class="line"> <span class="string">'docs'</span>,</span><br><span class="line"> <span class="string">'examples'</span>,</span><br><span class="line"> <span class="string">'host-manager'</span>,</span><br><span class="line"> <span class="string">'manager'</span>,</span><br><span class="line"> <span class="string">'**/lib'</span>,</span><br><span class="line"> <span class="string">'**/oss.properties'</span>,</span><br><span class="line"> <span class="string">'**/log4j.properties'</span>,</span><br><span class="line"> <span class="string">'**/jdbc.properties'</span>,</span><br><span class="line"> <span class="string">'**/rds.properties'</span>,</span><br><span class="line"> <span class="string">'**/auth2-config.properties'</span></span><br><span class="line"> )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>做升级时，我一般只复制经常修改的文件，项有些配置文件是不能覆盖的（生产环境和开发环境是不一样的）。</p>
+<h1 id="编写DOS脚本"><a href="#编写DOS脚本" class="headerlink" title="编写DOS脚本"></a>编写DOS脚本</h1><p>在build.gradle文件的相同位置创建zipRoot.bat脚本，内容如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradle zipRoot</span><br></pre></td></tr></table></figure></p>
+<p>这样，每次要生成升级文件时，只需双击zipRoot.bat文件就可以自动生成文件了。</p>
 
     
   </div>
@@ -509,9 +508,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'huqiaos-blog';
-      var disqus_identifier = 'about/index.html';
+      var disqus_identifier = 'posts_backup/Use-Gradle-to-make-project-update-file.html';
 
-      var disqus_title = "关于";
+      var disqus_title = "使用Gradle快速生成项目升级文件";
 
 
       function run_disqus_script(disqus_script) {

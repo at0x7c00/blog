@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="胡桥的个人博客">
+  <meta name="keywords" content=",,">
 
 
 
@@ -80,17 +80,21 @@
 
 
 
-<meta name="description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta name="description" content="配置ADFS基本可以按照http://www.web520.cn/archives/41572来配置ADFS，但是其中的web服务器证书模板添加ADFS主机名称这一步我就没有操作成功，但也没管，后来还是通了。 Java-Saml这是一个开源的SAML客户端，还有其他语言版本的，很强大，并且更新很频繁。https://github.com/onelogin/java-saml 重要说明 所有证书里的">
+<meta name="keywords" content="ADFS,java-saml">
 <meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://blog.huqiao.me/about/index.html">
+<meta property="og:title" content="ADFS配置及（Java）调用详解">
+<meta property="og:url" content="http://blog.huqiao.me/posts_backup/ADFS配置及（Java）调用详解.html">
 <meta property="og:site_name" content="0x7c00">
-<meta property="og:description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta property="og:description" content="配置ADFS基本可以按照http://www.web520.cn/archives/41572来配置ADFS，但是其中的web服务器证书模板添加ADFS主机名称这一步我就没有操作成功，但也没管，后来还是通了。 Java-Saml这是一个开源的SAML客户端，还有其他语言版本的，很强大，并且更新很频繁。https://github.com/onelogin/java-saml 重要说明 所有证书里的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-19T06:55:04.358Z">
+<meta property="og:image" content="http://blog.huqiao.me/images/note-images/certs.png">
+<meta property="og:image" content="http://blog.huqiao.me/images/note-images/relay.png">
+<meta property="og:updated_time" content="2019-06-19T06:55:04.298Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta name="twitter:title" content="ADFS配置及（Java）调用详解">
+<meta name="twitter:description" content="配置ADFS基本可以按照http://www.web520.cn/archives/41572来配置ADFS，但是其中的web服务器证书模板添加ADFS主机名称这一步我就没有操作成功，但也没管，后来还是通了。 Java-Saml这是一个开源的SAML客户端，还有其他语言版本的，很强大，并且更新很频繁。https://github.com/onelogin/java-saml 重要说明 所有证书里的">
+<meta name="twitter:image" content="http://blog.huqiao.me/images/note-images/certs.png">
 
 
 
@@ -118,7 +122,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.huqiao.me/about/">
+  <link rel="canonical" href="http://blog.huqiao.me/posts_backup/ADFS配置及（Java）调用详解.html">
 
 
 
@@ -129,7 +133,7 @@
   
 
   
-    关于 | 0x7c00
+    ADFS配置及（Java）调用详解 | 0x7c00
   
 </title>
 </head>
@@ -286,7 +290,7 @@
   <div id="posts" class="posts-expand">
   <header class="post-header">
 
-	<h2 class="post-title" itemprop="name headline">关于</h2>
+	<h2 class="post-title" itemprop="name headline">ADFS配置及（Java）调用详解</h2>
 
 
 
@@ -294,13 +298,26 @@
 
     
     
-      <p>农户，进城务工人员，北漂，程序员。</p>
-<p>平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。</p>
-<p>有幸相遇，与君共勉 ：</p>
-<p>1.多读书，多思考，才会进步！</p>
-<p>2.懂得知足和感恩，懂得体会生活的乐趣，一切才会有意义。</p>
-<p>3.紧跟时代潮流，更新自己的思想和工具集。技术学习，不进则退。</p>
-<p>4.生命不在于一时的璀璨，而在于长久的积累，所谓欲速则不达，今天的质量决定未来结果，一点一滴都影响深远。</p>
+      <h1 id="配置ADFS"><a href="#配置ADFS" class="headerlink" title="配置ADFS"></a>配置ADFS</h1><p>基本可以按照<a href="http://www.web520.cn/archives/41572" target="_blank" rel="noopener">http://www.web520.cn/archives/41572</a>来配置ADFS，但是其中的web服务器证书模板添加ADFS主机名称这一步我就没有操作成功，但也没管，后来还是通了。</p>
+<h1 id="Java-Saml"><a href="#Java-Saml" class="headerlink" title="Java-Saml"></a>Java-Saml</h1><p>这是一个开源的SAML客户端，还有<a href="https://github.com/onelogin" target="_blank" rel="noopener">其他语言版本</a>的，很强大，并且更新很频繁。<br><a href="https://github.com/onelogin/java-saml" target="_blank" rel="noopener">https://github.com/onelogin/java-saml</a></p>
+<h1 id="重要说明"><a href="#重要说明" class="headerlink" title="重要说明"></a>重要说明</h1><ul>
+<li>所有证书里的通信证书才是最关键的，客户端都是通过这个证书来通信的。<br><img src="/images/note-images/certs.png" alt></li>
+<li>信赖方配置时各个URL都应该配什么，参考这里<a href="https://www.vidbeo.com/support/users/how-do-i-configure-single-sign-on-using-adfs" target="_blank" rel="noopener">https://www.vidbeo.com/support/users/how-do-i-configure-single-sign-on-using-adfs</a></li>
+<li>java-saml需要pkcs#8格式的密钥，可以通过如下方式来转换得到：<blockquote>
+<p>How to convert a .PFX format private key to PKCS#8</p>
+<ol>
+<li>Make an back up copy from IIS</li>
+<li>Convert .PFX to .PEM<br>bin/openssl pkcs12 -in YourCertName.pfx -nocerts -nodes -out NewName.pem<br>(When prompted, enter the .PFX Private Key Password)</li>
+<li>Convert PEM to PKCS8<br>bin/openSSL pkcs8 -in NewName.pem -topk8 -nocrypt -out YourCertName.pk8</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<p>参考:<a href="https://knowledge.symantec.com/kb/index?page=content&amp;id=SO12643&amp;pmv=print&amp;actp=PRINT&amp;viewlocale=en_US" target="_blank" rel="noopener">https://knowledge.symantec.com/kb/index?page=content&amp;id=SO12643&amp;pmv=print&amp;actp=PRINT&amp;viewlocale=en_US</a></p>
+<ul>
+<li>信赖方的加密属性：可以不选，如果选一定要选之前提到的“通信证书”<br><img src="/images/note-images/relay.png" alt></li>
+<li>Windows Server 2016服务器在Logout时有bug，无法正常跳转。<br><a href="https://social.technet.microsoft.com/Forums/windows/en-US/acbf767a-2758-49bc-b3ab-45a8420af780/logout-when-adfs-is-bridge-between-wsfederation-rp-and-saml-claims-provider-external-saml-idp?forum=ADFS" target="_blank" rel="noopener">https://social.technet.microsoft.com/Forums/windows/en-US/acbf767a-2758-49bc-b3ab-45a8420af780/logout-when-adfs-is-bridge-between-wsfederation-rp-and-saml-claims-provider-external-saml-idp?forum=ADFS</a></li>
+</ul>
 
     
   </div>
@@ -509,9 +526,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'huqiaos-blog';
-      var disqus_identifier = 'about/index.html';
+      var disqus_identifier = 'posts_backup/ADFS配置及（Java）调用详解.html';
 
-      var disqus_title = "关于";
+      var disqus_title = "ADFS配置及（Java）调用详解";
 
 
       function run_disqus_script(disqus_script) {

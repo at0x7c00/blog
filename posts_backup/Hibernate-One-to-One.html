@@ -80,17 +80,17 @@
 
 
 
-<meta name="description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta name="description" content="之前一直用多对一，即使是一对一也转换成多对一方式解决。今天逃不了要用一对一还是费了点功夫才搞定。多对一关联关系的配置上，在两边分配配置多对一和一对多就行了。但是一对一的时候，两边都是@OneToOne，那么这个外键究竟会放到哪个表里面呢？当然，在实际意义来说，放在哪个表里面都合理。但是在Hibernate的配置上就应该是确定在某一张表的。在JPA的官方文档中有这样的说明：  mappedBypub">
 <meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://blog.huqiao.me/about/index.html">
+<meta property="og:title" content="Hibernate One to One">
+<meta property="og:url" content="http://blog.huqiao.me/posts_backup/Hibernate-One-to-One.html">
 <meta property="og:site_name" content="0x7c00">
-<meta property="og:description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta property="og:description" content="之前一直用多对一，即使是一对一也转换成多对一方式解决。今天逃不了要用一对一还是费了点功夫才搞定。多对一关联关系的配置上，在两边分配配置多对一和一对多就行了。但是一对一的时候，两边都是@OneToOne，那么这个外键究竟会放到哪个表里面呢？当然，在实际意义来说，放在哪个表里面都合理。但是在Hibernate的配置上就应该是确定在某一张表的。在JPA的官方文档中有这样的说明：  mappedBypub">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-19T06:55:04.358Z">
+<meta property="og:updated_time" content="2019-06-19T06:55:04.302Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta name="twitter:title" content="Hibernate One to One">
+<meta name="twitter:description" content="之前一直用多对一，即使是一对一也转换成多对一方式解决。今天逃不了要用一对一还是费了点功夫才搞定。多对一关联关系的配置上，在两边分配配置多对一和一对多就行了。但是一对一的时候，两边都是@OneToOne，那么这个外键究竟会放到哪个表里面呢？当然，在实际意义来说，放在哪个表里面都合理。但是在Hibernate的配置上就应该是确定在某一张表的。在JPA的官方文档中有这样的说明：  mappedBypub">
 
 
 
@@ -118,7 +118,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.huqiao.me/about/">
+  <link rel="canonical" href="http://blog.huqiao.me/posts_backup/Hibernate-One-to-One.html">
 
 
 
@@ -129,7 +129,7 @@
   
 
   
-    关于 | 0x7c00
+    Hibernate One to One | 0x7c00
   
 </title>
 </head>
@@ -286,7 +286,7 @@
   <div id="posts" class="posts-expand">
   <header class="post-header">
 
-	<h2 class="post-title" itemprop="name headline">关于</h2>
+	<h2 class="post-title" itemprop="name headline">Hibernate One to One</h2>
 
 
 
@@ -294,13 +294,20 @@
 
     
     
-      <p>农户，进城务工人员，北漂，程序员。</p>
-<p>平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。</p>
-<p>有幸相遇，与君共勉 ：</p>
-<p>1.多读书，多思考，才会进步！</p>
-<p>2.懂得知足和感恩，懂得体会生活的乐趣，一切才会有意义。</p>
-<p>3.紧跟时代潮流，更新自己的思想和工具集。技术学习，不进则退。</p>
-<p>4.生命不在于一时的璀璨，而在于长久的积累，所谓欲速则不达，今天的质量决定未来结果，一点一滴都影响深远。</p>
+      <p>之前一直用多对一，即使是一对一也转换成多对一方式解决。今天逃不了要用一对一还是费了点功夫才搞定。<br>多对一关联关系的配置上，在两边分配配置多对一和一对多就行了。但是一对一的时候，两边都是@OneToOne，那么这个外键究竟会放到哪个表里面呢？当然，在实际意义来说，放在哪个表里面都合理。但是在Hibernate的配置上就应该是确定在某一张表的。在JPA的官方文档中有这样的说明：</p>
+<blockquote>
+<p>mappedBy<br>public abstract java.lang.String mappedBy<br>(Optional) The field that owns the relationship. This element is only specified &gt;on the inverse (non-owning) side of the association.</p>
+</blockquote>
+<p>意思是说，哪一方是inverse就配置mappedBy就行了，这样，外键就产生在了非inverse一方对应的表里了。<br>以员工（Employee）和薪酬信息（SalaryInfo）为例说明，这里希望外键产生在薪酬信息表里面：<br>员工：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table</span>(name = <span class="string">"core_employee"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> SalaryInfo salaryInfo;</span><br><span class="line">	<span class="meta">@OneToOne</span>(mappedBy=<span class="string">"empNo"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> SalaryInfo <span class="title">getSalaryInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> salaryInfo;</span><br><span class="line">	&#125;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>薪酬信息：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table</span>(name = <span class="string">"sal_salary_info"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SalaryInfo</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Employee emp;</span><br><span class="line">	<span class="meta">@OneToOne</span>(cascade=CascadeType.ALL,targetEntity=Employee.class)</span><br><span class="line">	<span class="meta">@JoinColumn</span>(name = <span class="string">"emp_no"</span>, nullable = <span class="keyword">false</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Employee <span class="title">getEmp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.emp;</span><br><span class="line">	&#125;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>另外，在Hibernate的Criteria的查询中，不支持复杂对象的比较，比如下面的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Criteria criteria = getSession().createCriteria(Employee.class);</span><br><span class="line">		criteria.add(Restrictions.isNull(<span class="string">"salaryInfo"</span>));</span><br></pre></td></tr></table></figure></p>
+<p>意图查询没有薪酬信息的员工，结果在执行查询的时候，将产生下面的语句：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * </span><br><span class="line">		<span class="keyword">from</span> employee emp</span><br><span class="line">		<span class="keyword">inner</span> <span class="keyword">join</span> salaryinfo s <span class="keyword">on</span> s.emp_no=emp.emp_no</span><br><span class="line">		<span class="keyword">where</span> emp.emp_no <span class="keyword">is</span> <span class="literal">null</span></span><br></pre></td></tr></table></figure></p>
+<p>很是奇怪为啥条件是emp.emp_no is null。应该写成下面的形式：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Criteria criteria = getSession().createCriteria(Employee.class);</span><br><span class="line">		criteria.add(Restrictions.isNotNull(<span class="string">"salaryInfo.id"</span>));</span><br></pre></td></tr></table></figure></p>
+<p>除了isNotNull，其他的所有方法都是同样的道理，在进行复杂类型属性比较的时候需要点到里面的属性才会触发生成正确的sql查询条件。</p>
+<p>上面的代码到现在这个时候还无法正确查询到结果。因为Criteria的默认表连接方式为inner join，这样的连接方式导致没有找到薪酬信息的员工记录也无法出现在查询结果中。需要显示声明表连接方式：</p>
+<pre><code class="java">Criteria criteria = getSession().createCriteria(Employee.class);
+        criteria.add(Restrictions.isNotNull(<span class="string">"salaryInfo.id"</span>,JoinType.LEFT_OUTER_JOIN));
+</code></pre>
 
     
   </div>
@@ -509,9 +516,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'huqiaos-blog';
-      var disqus_identifier = 'about/index.html';
+      var disqus_identifier = 'posts_backup/Hibernate-One-to-One.html';
 
-      var disqus_title = "关于";
+      var disqus_title = "Hibernate One to One";
 
 
       function run_disqus_script(disqus_script) {

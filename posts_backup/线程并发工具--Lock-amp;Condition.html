@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="胡桥的个人博客">
+  <meta name="keywords" content=",">
 
 
 
@@ -80,17 +80,20 @@
 
 
 
-<meta name="description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta name="description" content="Lock和Condition是为了替代synchroinzed、wait、notify的，有点是更面向对象，功能上也更强大。下面是一个简单的例子：12345678910111213141516171819class Outputer &amp;#123;  Lock lock = new ReentrantLock();  public void output(String str) &amp;#123;   l">
+<meta name="keywords" content="多线程">
 <meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://blog.huqiao.me/about/index.html">
+<meta property="og:title" content="线程并发工具--Lock和Condition">
+<meta property="og:url" content="http://blog.huqiao.me/posts_backup/线程并发工具--Lock-amp;Condition.html">
 <meta property="og:site_name" content="0x7c00">
-<meta property="og:description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta property="og:description" content="Lock和Condition是为了替代synchroinzed、wait、notify的，有点是更面向对象，功能上也更强大。下面是一个简单的例子：12345678910111213141516171819class Outputer &amp;#123;  Lock lock = new ReentrantLock();  public void output(String str) &amp;#123;   l">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-19T06:55:04.358Z">
+<meta property="og:image" content="http://img.blog.csdn.net/20141018105326183?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaW1odXFpYW8=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2019-06-19T06:55:04.347Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta name="twitter:title" content="线程并发工具--Lock和Condition">
+<meta name="twitter:description" content="Lock和Condition是为了替代synchroinzed、wait、notify的，有点是更面向对象，功能上也更强大。下面是一个简单的例子：12345678910111213141516171819class Outputer &amp;#123;  Lock lock = new ReentrantLock();  public void output(String str) &amp;#123;   l">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20141018105326183?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaW1odXFpYW8=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 
 
 
@@ -118,7 +121,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.huqiao.me/about/">
+  <link rel="canonical" href="http://blog.huqiao.me/posts_backup/线程并发工具--Lock-amp;Condition.html">
 
 
 
@@ -129,7 +132,7 @@
   
 
   
-    关于 | 0x7c00
+    线程并发工具--Lock和Condition | 0x7c00
   
 </title>
 </head>
@@ -286,7 +289,7 @@
   <div id="posts" class="posts-expand">
   <header class="post-header">
 
-	<h2 class="post-title" itemprop="name headline">关于</h2>
+	<h2 class="post-title" itemprop="name headline">线程并发工具--Lock和Condition</h2>
 
 
 
@@ -294,13 +297,12 @@
 
     
     
-      <p>农户，进城务工人员，北漂，程序员。</p>
-<p>平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。</p>
-<p>有幸相遇，与君共勉 ：</p>
-<p>1.多读书，多思考，才会进步！</p>
-<p>2.懂得知足和感恩，懂得体会生活的乐趣，一切才会有意义。</p>
-<p>3.紧跟时代潮流，更新自己的思想和工具集。技术学习，不进则退。</p>
-<p>4.生命不在于一时的璀璨，而在于长久的积累，所谓欲速则不达，今天的质量决定未来结果，一点一滴都影响深远。</p>
+      <p>Lock和Condition是为了替代synchroinzed、wait、notify的，有点是更面向对象，功能上也更强大。下面是一个简单的例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Outputer</span> </span>&#123;</span><br><span class="line">  Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">output</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">   lock.lock();</span><br><span class="line">   <span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c : str.toCharArray()) &#123;</span><br><span class="line">     <span class="keyword">try</span> &#123;</span><br><span class="line">      Thread.sleep(<span class="number">50</span>);</span><br><span class="line">     &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">     &#125;</span><br><span class="line">     System.out.print(c);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println();</span><br><span class="line">   &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">    lock.unlock();</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>Lock比传统的synchronzied的优点，除了更面向对象外，它还增加了读写锁的功能。<br>读写锁的优点是，多个读的线程是仍然可以并发的，仅仅是读和写、写和写之间做同步，这样既提高了读时的效率也保证了写时的安全：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ReentrantReadWriteLock wrl = <span class="keyword">new</span> ReentrantReadWriteLock();</span><br><span class="line">wrl.readLock().lock();</span><br><span class="line">wrl.readLock().unlock();</span><br><span class="line"></span><br><span class="line">wrl.writeLock().lock();</span><br><span class="line">wrl.writeLock().unlock();</span><br></pre></td></tr></table></figure></p>
+<p>读写锁的一个应用是在缓存的实现中，读取缓存的时候先上读锁，然后判断在缓存中是否有数据，如果没有，则需要写，这个时候需要先将读锁解掉，然后上写锁，再加载数据，之后再解写锁，上读锁，在官方文档中有一个这样的例子：</p>
+<p><img src="http://img.blog.csdn.net/20141018105326183?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaW1odXFpYW8=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt></p>
+<p>Lock与synchronzied对应，与wait()和notify()对应的则是Condition：<br>你在将出传统的syncrhonized改成Lock之后，会发现wait和notify没法调了，这话时候需要使用Condition：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Condition condition = lock.newCondition();</span><br><span class="line">condition.await();<span class="comment">//this.wait();</span></span><br><span class="line">condition.signal();<span class="comment">//this.notify();</span></span><br></pre></td></tr></table></figure></p>
+<p>Condition较之以前的lock的好处是，之前的lock.wait()和lock.notify()无法根据实际情况去等待和唤醒一个想要的线程。有了Condition之后，可以设置多个condition，线程等待或唤醒是确定的某一个condition，这样在通信上更明确，也更方便了。</p>
 
     
   </div>
@@ -509,9 +511,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'huqiaos-blog';
-      var disqus_identifier = 'about/index.html';
+      var disqus_identifier = 'posts_backup/线程并发工具--Lock-amp;Condition.html';
 
-      var disqus_title = "关于";
+      var disqus_title = "线程并发工具--Lock和Condition";
 
 
       function run_disqus_script(disqus_script) {

@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="胡桥的个人博客">
+  <meta name="keywords" content=",,,,,,,,,,">
 
 
 
@@ -80,17 +80,18 @@
 
 
 
-<meta name="description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta name="description" content="首先，每个方法定义的局部变量，在外部是无法访问的，比如：123function foo()&amp;#123;    var name;&amp;#125; 这里的name变量对外界没有任何的污染，不会影响到其他地方的代码。如果每个模块的代码都这样写，那么就都不会打架了。 利用的函数的这一特性来实现隔离非常有效。通常情况下，我们只需要一个匿名的自执行函数就可以了：1234(function()&amp;#123;   v">
+<meta name="keywords" content="Javascript">
 <meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://blog.huqiao.me/about/index.html">
+<meta property="og:title" content="JavaScript的自执行方法和模块模式">
+<meta property="og:url" content="http://blog.huqiao.me/posts_backup/test.html">
 <meta property="og:site_name" content="0x7c00">
-<meta property="og:description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta property="og:description" content="首先，每个方法定义的局部变量，在外部是无法访问的，比如：123function foo()&amp;#123;    var name;&amp;#125; 这里的name变量对外界没有任何的污染，不会影响到其他地方的代码。如果每个模块的代码都这样写，那么就都不会打架了。 利用的函数的这一特性来实现隔离非常有效。通常情况下，我们只需要一个匿名的自执行函数就可以了：1234(function()&amp;#123;   v">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-19T06:55:04.358Z">
+<meta property="og:updated_time" content="2019-06-19T06:55:04.330Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta name="twitter:title" content="JavaScript的自执行方法和模块模式">
+<meta name="twitter:description" content="首先，每个方法定义的局部变量，在外部是无法访问的，比如：123function foo()&amp;#123;    var name;&amp;#125; 这里的name变量对外界没有任何的污染，不会影响到其他地方的代码。如果每个模块的代码都这样写，那么就都不会打架了。 利用的函数的这一特性来实现隔离非常有效。通常情况下，我们只需要一个匿名的自执行函数就可以了：1234(function()&amp;#123;   v">
 
 
 
@@ -118,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.huqiao.me/about/">
+  <link rel="canonical" href="http://blog.huqiao.me/posts_backup/test.html">
 
 
 
@@ -129,7 +130,7 @@
   
 
   
-    关于 | 0x7c00
+    JavaScript的自执行方法和模块模式 | 0x7c00
   
 </title>
 </head>
@@ -286,7 +287,7 @@
   <div id="posts" class="posts-expand">
   <header class="post-header">
 
-	<h2 class="post-title" itemprop="name headline">关于</h2>
+	<h2 class="post-title" itemprop="name headline">JavaScript的自执行方法和模块模式</h2>
 
 
 
@@ -294,13 +295,14 @@
 
     
     
-      <p>农户，进城务工人员，北漂，程序员。</p>
-<p>平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。</p>
-<p>有幸相遇，与君共勉 ：</p>
-<p>1.多读书，多思考，才会进步！</p>
-<p>2.懂得知足和感恩，懂得体会生活的乐趣，一切才会有意义。</p>
-<p>3.紧跟时代潮流，更新自己的思想和工具集。技术学习，不进则退。</p>
-<p>4.生命不在于一时的璀璨，而在于长久的积累，所谓欲速则不达，今天的质量决定未来结果，一点一滴都影响深远。</p>
+      <p>首先，每个方法定义的局部变量，在外部是无法访问的，比如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里的name变量对外界没有任何的污染，不会影响到其他地方的代码。如果每个模块的代码都这样写，那么就都不会打架了。</p>
+<p>利用的函数的这一特性来实现隔离非常有效。通常情况下，我们只需要一个匿名的自执行函数就可以了：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   <span class="keyword">var</span> name = <span class="string">'Tom'</span>;</span><br><span class="line">   <span class="keyword">return</span> name;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure></p>
+<p>如果仅仅是return一个name那大可没必要这么干，我们需要返回一个具有类似JavaBean读写功能的对象：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   <span class="keyword">var</span> name = <span class="string">'Tom'</span>;</span><br><span class="line">   <span class="keyword">var</span> age = <span class="number">10</span>;</span><br><span class="line">   <span class="keyword">return</span> &#123;</span><br><span class="line">        name :name,<span class="attr">age</span>:age</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure></p>
+<p>这里返回了一个JSON对象，既然是对象，那么完全可以是有方法的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   <span class="keyword">var</span> name = <span class="string">'Tom'</span>;</span><br><span class="line">   <span class="keyword">var</span> age = <span class="number">10</span>;</span><br><span class="line">   <span class="keyword">return</span> &#123;</span><br><span class="line">        name:name,<span class="attr">age</span>:age,</span><br><span class="line">        setName(n)&#123;</span><br><span class="line">            name = n;</span><br><span class="line">        &#125;,</span><br><span class="line">        setAge(a)&#123;</span><br><span class="line">            age = a;</span><br><span class="line">        &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure></p>
+<p>是的，不光可以有方法，方法中竟然还能访问早已经执行完毕了的那个自执行方法的变量。真的很神奇。</p>
+<p>神奇的背后其实是闭包在起作用。自执行方法虽然早在setName和setAge方法之前就已经执行完毕了，但因为后两个方法的定义中引用到了自执行方法中的变量。那么JavaScript引擎在为后两个函数创建闭包的时候会将自执行方法的变量“保留”。</p>
+<p>这样就实现了代码的隔离（避免带来污染）还能合理访问的目的。</p>
 
     
   </div>
@@ -509,9 +511,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'huqiaos-blog';
-      var disqus_identifier = 'about/index.html';
+      var disqus_identifier = 'posts_backup/test.html';
 
-      var disqus_title = "关于";
+      var disqus_title = "JavaScript的自执行方法和模块模式";
 
 
       function run_disqus_script(disqus_script) {

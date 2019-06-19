@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="胡桥的个人博客">
+  <meta name="keywords" content=",,,,">
 
 
 
@@ -80,17 +80,18 @@
 
 
 
-<meta name="description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta name="description" content="今天遇到一个奇怪的问题，使用Hibernate执行查询语句的时候，数据中的数据无缘地被改变了。首先想到的是把持久态的对象在Action中改变了属性值，但是没发现有这样的操作。百思不得其解。使用Debug模式跟踪了一下，发现确实是在list方法执行时出现对数据的莫名更改，而我用JUnit进行单元测试时，却没有这样的情况。  12345678910111213public List&amp;lt;T&amp;gt;">
+<meta name="keywords" content="Spring,Hibernate,junit,单元测试">
 <meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://blog.huqiao.me/about/index.html">
+<meta property="og:title" content="Spring中的read-only">
+<meta property="og:url" content="http://blog.huqiao.me/posts_backup/Spring中的read-only.html">
 <meta property="og:site_name" content="0x7c00">
-<meta property="og:description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta property="og:description" content="今天遇到一个奇怪的问题，使用Hibernate执行查询语句的时候，数据中的数据无缘地被改变了。首先想到的是把持久态的对象在Action中改变了属性值，但是没发现有这样的操作。百思不得其解。使用Debug模式跟踪了一下，发现确实是在list方法执行时出现对数据的莫名更改，而我用JUnit进行单元测试时，却没有这样的情况。  12345678910111213public List&amp;lt;T&amp;gt;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-19T06:55:04.358Z">
+<meta property="og:updated_time" content="2019-06-19T06:55:04.314Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta name="twitter:title" content="Spring中的read-only">
+<meta name="twitter:description" content="今天遇到一个奇怪的问题，使用Hibernate执行查询语句的时候，数据中的数据无缘地被改变了。首先想到的是把持久态的对象在Action中改变了属性值，但是没发现有这样的操作。百思不得其解。使用Debug模式跟踪了一下，发现确实是在list方法执行时出现对数据的莫名更改，而我用JUnit进行单元测试时，却没有这样的情况。  12345678910111213public List&amp;lt;T&amp;gt;">
 
 
 
@@ -118,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.huqiao.me/about/">
+  <link rel="canonical" href="http://blog.huqiao.me/posts_backup/Spring中的read-only.html">
 
 
 
@@ -129,7 +130,7 @@
   
 
   
-    关于 | 0x7c00
+    Spring中的read-only | 0x7c00
   
 </title>
 </head>
@@ -286,7 +287,7 @@
   <div id="posts" class="posts-expand">
   <header class="post-header">
 
-	<h2 class="post-title" itemprop="name headline">关于</h2>
+	<h2 class="post-title" itemprop="name headline">Spring中的read-only</h2>
 
 
 
@@ -294,14 +295,10 @@
 
     
     
-      <p>农户，进城务工人员，北漂，程序员。</p>
-<p>平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。</p>
-<p>有幸相遇，与君共勉 ：</p>
-<p>1.多读书，多思考，才会进步！</p>
-<p>2.懂得知足和感恩，懂得体会生活的乐趣，一切才会有意义。</p>
-<p>3.紧跟时代潮流，更新自己的思想和工具集。技术学习，不进则退。</p>
-<p>4.生命不在于一时的璀璨，而在于长久的积累，所谓欲速则不达，今天的质量决定未来结果，一点一滴都影响深远。</p>
-
+      <p>今天遇到一个奇怪的问题，使用Hibernate执行查询语句的时候，数据中的数据无缘地被改变了。首先想到的是把持久态的对象在Action中改变了属性值，但是没发现有这样的操作。百思不得其解。使用Debug模式跟踪了一下，发现确实是在list方法执行时出现对数据的莫名更改，而我用JUnit进行单元测试时，却没有这样的情况。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;T&gt; <span class="title">findByHql</span><span class="params">(String hql, <span class="keyword">int</span> startPos, <span class="keyword">int</span> length,Object[] paramValues)</span> </span>&#123;</span><br><span class="line">	session = getCurrentSession();</span><br><span class="line">	Query query = session.createQuery(hql);</span><br><span class="line">	<span class="keyword">if</span> (paramValues!=<span class="keyword">null</span>&amp;&amp;paramValues.length&gt;<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; paramValues.length; i++) &#123;</span><br><span class="line">			query.setParameter(i, paramValues[i]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	query.setFirstResult(startPos);</span><br><span class="line">	query.setMaxResults(length);</span><br><span class="line">	List&lt;T&gt; list = query.list();</span><br><span class="line">	<span class="keyword">return</span> list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解决办法，在Spring中的事务控制部分将该方法配置成只读方式： </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"add*"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRES_NEW"</span> /&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"update*"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRES_NEW"</span> /&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"delete*"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRES_NEW"</span> /&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"find*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"*"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></span><br></pre></td></tr></table></figure>
     
   </div>
 
@@ -509,9 +506,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'huqiaos-blog';
-      var disqus_identifier = 'about/index.html';
+      var disqus_identifier = 'posts_backup/Spring中的read-only.html';
 
-      var disqus_title = "关于";
+      var disqus_title = "Spring中的read-only";
 
 
       function run_disqus_script(disqus_script) {

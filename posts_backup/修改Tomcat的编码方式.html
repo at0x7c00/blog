@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="胡桥的个人博客">
+  <meta name="keywords" content=",">
 
 
 
@@ -80,17 +80,18 @@
 
 
 
-<meta name="description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta name="description" content="今天做一个简单的在线音乐播放器，使用的是标签，但是出现一个问题，即中文音乐文件无法访问。开始以为是embed标签的问题。但是以前写过一个静态页面就是使用了中文名称。另外还有一个现象是，即使将音乐文件直接放在tomcat的WebRoot目录下，通过浏览器都无法访问，使用迅雷也无法下载。所以就想到了是Tomcat的问题了。  默认情况下，tomcat使用的是iso8859-1的编码编码方式，浏览器的e">
+<meta name="keywords" content="Tomcat">
 <meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://blog.huqiao.me/about/index.html">
+<meta property="og:title" content="修改Tomcat的编码方式">
+<meta property="og:url" content="http://blog.huqiao.me/posts_backup/修改Tomcat的编码方式.html">
 <meta property="og:site_name" content="0x7c00">
-<meta property="og:description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta property="og:description" content="今天做一个简单的在线音乐播放器，使用的是标签，但是出现一个问题，即中文音乐文件无法访问。开始以为是embed标签的问题。但是以前写过一个静态页面就是使用了中文名称。另外还有一个现象是，即使将音乐文件直接放在tomcat的WebRoot目录下，通过浏览器都无法访问，使用迅雷也无法下载。所以就想到了是Tomcat的问题了。  默认情况下，tomcat使用的是iso8859-1的编码编码方式，浏览器的e">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-19T06:55:04.358Z">
+<meta property="og:updated_time" content="2019-06-19T06:55:04.332Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="农户，进城务工人员，北漂，程序员。 平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。 有幸相遇，与君共勉 ： 1.多读书，多思考，才会进步！ 2.懂得知足和感">
+<meta name="twitter:title" content="修改Tomcat的编码方式">
+<meta name="twitter:description" content="今天做一个简单的在线音乐播放器，使用的是标签，但是出现一个问题，即中文音乐文件无法访问。开始以为是embed标签的问题。但是以前写过一个静态页面就是使用了中文名称。另外还有一个现象是，即使将音乐文件直接放在tomcat的WebRoot目录下，通过浏览器都无法访问，使用迅雷也无法下载。所以就想到了是Tomcat的问题了。  默认情况下，tomcat使用的是iso8859-1的编码编码方式，浏览器的e">
 
 
 
@@ -118,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.huqiao.me/about/">
+  <link rel="canonical" href="http://blog.huqiao.me/posts_backup/修改Tomcat的编码方式.html">
 
 
 
@@ -129,7 +130,7 @@
   
 
   
-    关于 | 0x7c00
+    修改Tomcat的编码方式 | 0x7c00
   
 </title>
 </head>
@@ -286,7 +287,7 @@
   <div id="posts" class="posts-expand">
   <header class="post-header">
 
-	<h2 class="post-title" itemprop="name headline">关于</h2>
+	<h2 class="post-title" itemprop="name headline">修改Tomcat的编码方式</h2>
 
 
 
@@ -294,14 +295,11 @@
 
     
     
-      <p>农户，进城务工人员，北漂，程序员。</p>
-<p>平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。</p>
-<p>有幸相遇，与君共勉 ：</p>
-<p>1.多读书，多思考，才会进步！</p>
-<p>2.懂得知足和感恩，懂得体会生活的乐趣，一切才会有意义。</p>
-<p>3.紧跟时代潮流，更新自己的思想和工具集。技术学习，不进则退。</p>
-<p>4.生命不在于一时的璀璨，而在于长久的积累，所谓欲速则不达，今天的质量决定未来结果，一点一滴都影响深远。</p>
-
+      <p>今天做一个简单的在线音乐播放器，使用的是<embed>标签，但是出现一个问题，即中文音乐文件无法访问。<br>开始以为是embed标签的问题。但是以前写过一个静态页面就是使用了中文名称。另外还有一个现象是，<br>即使将音乐文件直接放在tomcat的WebRoot目录下，通过浏览器都无法访问，使用迅雷也无法下载。所以就想到了是Tomcat的问题了。 </p>
+<p>默认情况下，tomcat使用的是iso8859-1的编码编码方式，浏览器的embed标签中src指向的地址要通过tomcat去解析。如果包含中文，采用这种编码方式就会出现乱码问题，而在这种情况下，乱码问题就表现出无法访问该音频文件了。 </p>
+<p>解决方法很简单：<br>修改tomcat下的conf/server.xml文件，找到如下代码：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8080"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span> </span></span><br><span class="line"><span class="tag">            <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span> </span></span><br><span class="line"><span class="tag">            <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这段代码规定了Tomcat监听HTTP请求的端口号等信息。可以在这里添加一个属性：URIEncoding，将该属性值设置为UTF-8，即可让Tomcat（默认ISO-8859-1编码）以UTF-8的编码处理get请求。更改后的代码如下所示： </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8080"</span> </span></span><br><span class="line"><span class="tag">             <span class="attr">URIEncoding</span>=<span class="string">"UTF-8"</span> </span></span><br><span class="line"><span class="tag">             <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span> </span></span><br><span class="line"><span class="tag">             <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span> </span></span><br><span class="line"><span class="tag">             <span class="attr">redirectPort</span>=<span class="string">"8443"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
     
   </div>
 
@@ -509,9 +507,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'huqiaos-blog';
-      var disqus_identifier = 'about/index.html';
+      var disqus_identifier = 'posts_backup/修改Tomcat的编码方式.html';
 
-      var disqus_title = "关于";
+      var disqus_title = "修改Tomcat的编码方式";
 
 
       function run_disqus_script(disqus_script) {
