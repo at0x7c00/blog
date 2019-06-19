@@ -4,6 +4,63 @@
   
     
     <entry>
+      <title>Erlang学习笔记1-顺序编程</title>
+      <link href="/2017/08/08/Erlang%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01-%E9%A1%BA%E5%BA%8F%E7%BC%96%E7%A8%8B/"/>
+      <url>/2017/08/08/Erlang%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01-%E9%A1%BA%E5%BA%8F%E7%BC%96%E7%A8%8B/</url>
+      
+        <content type="html"><![CDATA[<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>Erlang中的变量其实是不能变的，它类似数学方程式中的字符，代表着一个常量。Erlang的变量经过一次模式匹配绑定上值之后就不能再改变了。</p><h2 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h2><p>如格式{,,…,_}组成的数据叫做元组。<br>元组类似Java中的对象，但是元组可以拥有任意“属性”。<br>可以通过如下方式提取元组的元素值：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1&gt;Point=&#123;point,45,50&#125;.</span><br><span class="line">&#123;point,45,50&#125;</span><br><span class="line">2&gt;&#123;point,X,Y&#125;=Point.</span><br><span class="line">&#123;point,45,50&#125;</span><br><span class="line">3&gt;X.</span><br><span class="line">45</span><br><span class="line">4&gt;Y.</span><br><span class="line">50</span><br></pre></td></tr></table></figure><p>通过这样的方式就能将X和Y分别匹配到元组中的元素值了。<br>还可以通过匿名变量“_”来进行匹配：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1&gt;Point=&#123;point,45,50&#125;.</span><br><span class="line">&#123;point,45,50&#125;</span><br><span class="line">2&gt;&#123;_,_,Y&#125;=Point.</span><br><span class="line">&#123;point,45,50&#125;</span><br><span class="line">3&gt;Y.</span><br><span class="line">50</span><br></pre></td></tr></table></figure><h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>格式[,,…,_]的数据被称作列表。<br>列表类似于Java中的数组或者集合。但是列表中的元素类型是可以相互不同的。</p><p>列表有表头和表尾之分。一个列表的第一个元素就是表头，其余的元素就是表尾。可以通过[H|T]的方来合并两个列表:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1&gt;ThingsToBuy = [&#123;apples,10&#125;,&#123;pears,6&#125;,&#123;milk,3&#125;].</span><br><span class="line">...</span><br><span class="line">2&gt;ThingsToBuy1 = [&#123;oranges,4&#125;,&#123;newspaper,1&#125;|ThingsToBuy].</span><br><span class="line">[&#123;oranges,4&#125;,&#123;newspaper,1&#125;,&#123;apples,10&#125;,&#123;pears,6&#125;,&#123;milk,3&#125;]</span><br></pre></td></tr></table></figure><p>还可以通过[T|H]的方式来提取表头和表尾。这种提取表头的方式非常实用，遍历列表元素时经常会用到。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">3&gt;[H|T] = ThingsToBuy1.</span><br><span class="line">[&#123;oranges,4&#125;,&#123;newspaper,1&#125;,&#123;apples,10&#125;,&#123;pears,6&#125;,&#123;milk,3&#125;]</span><br><span class="line">4&gt;H.</span><br><span class="line">&#123;oranges,4&#125;</span><br><span class="line">5&gt;T.</span><br><span class="line">[&#123;newspaper,1&#125;,&#123;apples,10&#125;,&#123;pears,6&#125;,&#123;milk,3&#125;]</span><br></pre></td></tr></table></figure><h2 id="模块与函数"><a href="#模块与函数" class="headerlink" title="模块与函数"></a>模块与函数</h2><p>函数实现中也是一种模式匹配，如下代码实现了商品-&gt;价格的映射函数：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-module(shop)</span><br><span class="line">-export([cost/1])</span><br><span class="line">cost(oranges) -&gt; 5;</span><br><span class="line">cost(newspaper) -&gt; 8;</span><br><span class="line">cost(apples) -&gt; 2;</span><br><span class="line">cost(pears) -&gt; 9;</span><br><span class="line">cost(milk) -&gt; 7.</span><br></pre></td></tr></table></figure><p>一个”-&gt;”其实代表了一种模式匹配。当遇到了oranges时返回5；当遇到newspaper时返回8，以此类推。由“;”分隔的各条语句的顺序不重要，因为每条模式匹配都是排他的。</p><p>调用函数的时候使用“模块名称:方法名称(参数名称)”的形式：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1&gt;shop:cost(apples).</span><br><span class="line">2</span><br><span class="line">2&gt;shop:cost(oranges).</span><br><span class="line">5</span><br></pre></td></tr></table></figure><p>递归计算商品总价<br>现在来实现一个函数，能够计算商品列表的总价。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-module(shop1)</span><br><span class="line">-export([total/1]).</span><br><span class="line">total([&#123;What,N&#125;|T]) -&gt; shop:cost(What) * N + total(T);</span><br><span class="line">total([]) -&gt; 0.</span><br></pre></td></tr></table></figure><p>total函数调用了本身，这里用到了递归来依次加上每一项商品的价格。<br>递归本身和其他传统编程语言没有差别。区别在于对集合元素的遍历。Erlang通过[H|T]的方式逐一拿到列表的表头，从而实现了遍历。</p><p>另外，增加一个total([]) -&gt; 0.来实现递归的终止。有且必须要有这条语句。否者在模式匹配上会报错。</p><p>fun:基本抽象单元<br>之前定义在模块中的函数貌似没法赋值给另外一个遍历（存疑？？）。<br>作为函数式编程语言。Erlang可以像JavaScript那样定义一个函数并将这个函数赋值给一个变量：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1&gt;Double = fun(X) -&gt; 2*X end.</span><br><span class="line">#Fun&lt;erl_eval.6.56006483&gt;</span><br></pre></td></tr></table></figure><p>之后就可以调用这个函数了。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2&gt;Double(2).</span><br><span class="line">4</span><br></pre></td></tr></table></figure><p>以fun作为参数使用<br>Erlang内置函数lists:map(Fun,List)函数的作用是为列表总的每个元素执行Fun方法。可以通过如下方法，使购物清单中的数量增加一倍：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1&gt;ThingsToBuy = [&#123;apples,10&#125;,&#123;pears,6&#125;,&#123;milk,3&#125;].</span><br><span class="line">[&#123;apples,10&#125;,&#123;pears,6&#125;,&#123;milk,3&#125;]</span><br><span class="line">2&gt;lists:map(fun(&#123;What,N&#125;) -&gt; &#123;What,N*2&#125; end,ThingsToBuy).</span><br><span class="line">[&#123;apples,20&#125;,&#123;pears,12&#125;,&#123;milk,6&#125;]</span><br></pre></td></tr></table></figure></p><p>另外一个内置函数lists:filter(Fun,List)可以对列表List的各个元素进行筛选,满足Fun函数的元素将会被筛选出来。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1&gt;L = [1,2,3,4,5,6,7,8].</span><br><span class="line">2&gt;lists:filter(fun(X)-&gt;(X rem 2)=:=0 end,L).</span><br><span class="line">[2,4,6,8]</span><br></pre></td></tr></table></figure><p>以fun作为返回值使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1&gt;Fruit = [apple,orange,pear].</span><br><span class="line">2&gt;MakeTest = fun(L) -&gt; (fun(X) -&gt; lists:member(X,L) end)end.</span><br><span class="line">3&gt;IsFruit = MakeTest(Fruit).</span><br><span class="line">4&gt;IsFruit(apple).</span><br><span class="line">true</span><br><span class="line">5&gt;IsFruit(pear).</span><br><span class="line">true</span><br><span class="line">6&gt;IsFruit(dog).</span><br><span class="line">false</span><br></pre></td></tr></table></figure></p><p>定义自己的抽象控制<br>Erlang没有for循环，但是我们可以根据自己的需求来定义for：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for(Max,Max,F) -&gt; [F(Max)];</span><br><span class="line">for(I,Max,F)   -&gt; [F(I)|for(I+1,Max,F)].</span><br></pre></td></tr></table></figure><p>打出1到10：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1&gt;constol:for(1,10,fun(X) -&gt; X end).</span><br><span class="line">[1,2,3,4,5,6,7,8,9,10]</span><br></pre></td></tr></table></figure></p><p>列表推导<br>如果需要将一个列表转换成另外一个列表，可以通过如下的格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ F(X) || X &lt;- L]</span><br></pre></td></tr></table></figure></p><p>意思是将列表L的每个元素X执行F函数后得到另外一个列表。</p><p>(未完待续)</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 编程 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>确诊患上了甲亢</title>
+      <link href="/2017/08/08/%E7%A1%AE%E8%AF%8A%E6%82%A3%E4%B8%8A%E4%BA%86%E7%94%B2%E4%BA%A2/"/>
+      <url>/2017/08/08/%E7%A1%AE%E8%AF%8A%E6%82%A3%E4%B8%8A%E4%BA%86%E7%94%B2%E4%BA%A2/</url>
+      
+        <content type="html"><![CDATA[<p>去医院检查了一堆，最后确诊患上了甲亢，目前还有一项结果没查出来。但肯定是患上了这种病了。</p><p>甲亢全称甲状腺机能亢进，是一种内分泌疾病。甲状腺过多地分泌甲状腺激素，导致身体代谢过度旺盛。如心率加快导致心率不齐（早搏），消化旺盛（食欲大增，大便次数也增多），多汗怕热，身体消瘦。</p><p>个人认为患甲亢是因为过多的透支身体导致的。</p><p>我曾经有一次出差，由于着急赶回来的火车，通宵给客户写系统。忙到了4点多弄好了，休息的时候就遇到了可怕的梦魇。梦魇就是身体不受意识控制，第一次遇到时还以为自己灵魂出窍快要挂了。后来在网上查了才知道，其实是由于身体过于劳累已经沉睡了但神经系统兴奋还醒着的，导致了两者配合不协调从而出现了上述感觉。</p><p>梦魇也是一种身体透支的现象。身体的硬件已经很疲劳了，但是软件还在要求努力工作。这时候应该做的就是听从硬件的信号马上休息。</p><p>如果不休息，继续强求的话，这时候我们的身体其实很奇怪，他确实就会强打起精神来继续工作。但这其实是在逼迫身体了，已经是在透支了。</p><p>透支的结果是，身体将不再继续发出信号了。身体刚开始说：“算了，赶紧休息吧，我不行了！”。后来就会听从神经系统的指令，“好吧好吧在继续工作吧”。</p><p>一旦身体不再发出信号就很危险了，因为你的随时可能倒下。</p><p>身体透支最初的一个信号就是：紊乱。<br>就像机械过度使用时会发热、冒火花，各个部件可能会失控配合不协调。<br>身体和机械一模一样。拿甲亢来说吧。本来甲状腺会听从脑垂体的。脑垂体通过分泌促甲状腺激素来告诉甲状腺分泌甲状腺激素，从而让身体进入代谢加强来应付工作或学习。但如果身体透支，甲状腺分泌甲状腺激素的多少将不受脑垂体的控制，从而出现一种失控的状态。甲状腺此时的行为因何造成的呢？我觉得是神经系统。神经系统压力过大，始终不停地要求身体努力工作，而脑垂体分管的部门早就下班了，但甲状腺所在的部门应更高层领导的要求继续加班，不听命于直接上级了。</p><p>不要小看身体的紊乱，因为肿瘤其实也是紊乱的一个例子。肿瘤细胞就不受身体的控制任意生长。这和甲状腺不受脑垂体控制是一样的现象。所以神经紊乱、内分泌失调等等都是由于不良生活习惯导致身体透支引起的。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 日记 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>��������</title>
+      <link href="/2017/08/01/%E5%85%B3%E4%BA%8E%E6%AD%BB%E4%BA%A1/"/>
+      <url>/2017/08/01/%E5%85%B3%E4%BA%8E%E6%AD%BB%E4%BA%A1/</url>
+      
+        <content type="html"><![CDATA[<p>�����ֵ�ʱ��������77kg����Ŵӽ��������·ֵ�ʱ��ʼ�������٣����ҷ��ֵ�ʱ���Ѿ�ֻ��70kg�ˡ��տ�ʼ����ϲ��һֱ����ʵ�Ŀ���ڲ�������ʵ���ˡ�����������ע���ؾͿ�ʼ���Ծ��ˡ��ҵ����ػ��ڼ����»��������Ѿ���66.5kg�ˡ������ؽ���֮ǰ������һ�μ������ܵ����ɲ��뾭���������������ؽ���֮�����ʧ�ˡ�</p><p>�����һ�û��ȥϵͳ��죬ԭ����Ȼ������</p><blockquote><p>2017-08-08���£�ȥҽԺ��������׿�</p></blockquote><p>�����ò������Լ��ǲ��ǵ���ʲô�ز��ˡ�Ҳ����ֻ�ǵ�������֢�ˣ���Ϊ��ÿ�����Ϲص�֮��ͻ��뵽�������뵽������һ���������û�к�����û��������û����ʶ�������������ʧ������޾��ĺڰ��������Ҷ೤�٣�ʱ���ܻ����⣬ֻ�ǳ�������顣</p><p>�������򵽣���������һ�����̣����������ĵ�ͼ�Ӳ���״̬���һ��ֱ��һֱ������ȥ����ֻ��һ��ת�۵㣬������һ������ĵ�ͼ�����ټ���������Ǿʹ�ֹͣ���Ҳ���ȥ����޾��ĺڰ�������Ҳ�����£�<br>������������Щ�ֲ��ı��������Ļ���Ҳ��ֻ���˳��������屾�ܵķ�Ӧ��ʧȥ��ʶ���˸����о������κ�ʹ�ࡣ</p><p>�Ҿ��ã������ĸо�Ӧ�úͳ���֮ǰ��������̥�γ�֮ǰ�ĸо���һ���ġ�ʲô�о���û�о�������֮ǰ����û��������磬������Ҳû���ҡ��������֮���Ч����һģһ���ġ�</p><p>��������Ǵ�����ѧ���ܽ��������������һ���û�����ܡ������ϴӴ�û���ҡ�����ʵ��</p><p>��һֱ���á��ҡ��Ĵ����Ƿǳ�����ġ����������ҵ���˼���Ҿ����ң���û��վ��������������������硣��ֻ��һ�����Թ۲��ⲿ�����С���磬�����С�������ʧ�����ǹ¶��ģ�û�����ܺ����Ƿ������С���硣</p><blockquote><p>������¶���<br>����ȥ���Ǽٵģ�������һ��û�й�;��·��������һ�д��춼�޷���ԭ����ʹ�����&gt;�Ҽ��͵İ��飬������Ҳ������ת˲���ŵ���ʵ��Ψ�й¶����㡣��</p></blockquote><p>��Ϊ�����ǹ¶��ģ�������һ�仰�ǶԵģ����������չ˺����ǵ�ֻ�������Լ�����<br>���������ˣ���Ӧ�����Լ�������Ϣһ�£���������ǿ��֡�<br>�����ѹ�������ʱ�����ķſ�Щ������˵����Ȱ��Ļ���û�ã��ؼ����ǿ����Լ���</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> �ռ� </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>2017年中总结</title>
       <link href="/2017/07/12/2017%E5%B9%B4%E4%B8%AD%E6%80%BB%E7%BB%93/"/>
       <url>/2017/07/12/2017%E5%B9%B4%E4%B8%AD%E6%80%BB%E7%BB%93/</url>
@@ -571,11 +628,11 @@
     
     
     <entry>
-      <title>资源搜集</title>
-      <link href="/2016/12/06/resource/"/>
-      <url>/2016/12/06/resource/</url>
+      <title>读《自品牌》</title>
+      <link href="/2016/12/06/%E8%AF%BB%E3%80%8A%E8%87%AA%E5%93%81%E7%89%8C%E3%80%8B/"/>
+      <url>/2016/12/06/%E8%AF%BB%E3%80%8A%E8%87%AA%E5%93%81%E7%89%8C%E3%80%8B/</url>
       
-        <content type="html"><![CDATA[<p></p><h3>个人博客</h3><p></p><ul><br>    <li><a href="http://litaotao.github.io/" target="_blank" rel="noopener noreferrer">李涛涛</a></li><br>    <li><a href="http://daichuanqing.com/" target="_blank" rel="noopener noreferrer">晓生（交互设计）</a></li><br>    <li><a href="http://www.ruanyifeng.com/blog/" target="_blank" rel="noopener noreferrer">阮一峰博客</a></li><br>    <li><a href="http://evanyou.me" target="_blank" rel="noopener noreferrer">尤雨溪(Vue.js作者)</a></li><br></ul><br><h3>优质社区</h3><br><ul><br>    <li><a href="https://gold.xitu.io" target="_blank" rel="noopener noreferrer">掘金</a></li><br></ul><br><h3>工具</h3><br><ul><br>    <li><a href="https://docs.google.com" target="_blank" rel="noopener noreferrer">谷歌文档</a></li><br>    <li><a href="https://coggle.it/" target="_blank" rel="noopener noreferrer">思维导图</a></li><br>    <li><a href="https://www.iconfinder.com" target="_blank" rel="noopener noreferrer">图标搜索</a></li><br></ul>]]></content>
+        <content type="html"><![CDATA[<p>时刻关注行业动态，因为你的技术随时有可能过期。</p><p>达尔文在一百年前就说过，现在剩下的物种，不一定是最强大的也不一定是最有智慧的，只是他们懂得根据环境的要求改变自己。</p><p>所以，我们应该随时调整自己，不仅是技术、还有对事物的观念，只有这样才能应对变化的环境。</p><p>技术这东西，已经不能以“用到了再学”的方法来处理了。新技术层出不穷，层层堆叠，如果你慢了，到时候就很难看清本质了。可以不用都精通，想都精通也肯定做不到，但绝对不是不闻不问。</p>]]></content>
       
       
       <categories>
@@ -590,11 +647,11 @@
     
     
     <entry>
-      <title>读《自品牌》</title>
-      <link href="/2016/12/06/%E8%AF%BB%E3%80%8A%E8%87%AA%E5%93%81%E7%89%8C%E3%80%8B/"/>
-      <url>/2016/12/06/%E8%AF%BB%E3%80%8A%E8%87%AA%E5%93%81%E7%89%8C%E3%80%8B/</url>
+      <title>资源搜集</title>
+      <link href="/2016/12/06/resource/"/>
+      <url>/2016/12/06/resource/</url>
       
-        <content type="html"><![CDATA[<p>时刻关注行业动态，因为你的技术随时有可能过期。</p><p>达尔文在一百年前就说过，现在剩下的物种，不一定是最强大的也不一定是最有智慧的，只是他们懂得根据环境的要求改变自己。</p><p>所以，我们应该随时调整自己，不仅是技术、还有对事物的观念，只有这样才能应对变化的环境。</p><p>技术这东西，已经不能以“用到了再学”的方法来处理了。新技术层出不穷，层层堆叠，如果你慢了，到时候就很难看清本质了。可以不用都精通，想都精通也肯定做不到，但绝对不是不闻不问。</p>]]></content>
+        <content type="html"><![CDATA[<p></p><h3>个人博客</h3><p></p><ul><br>    <li><a href="http://litaotao.github.io/" target="_blank" rel="noopener noreferrer">李涛涛</a></li><br>    <li><a href="http://daichuanqing.com/" target="_blank" rel="noopener noreferrer">晓生（交互设计）</a></li><br>    <li><a href="http://www.ruanyifeng.com/blog/" target="_blank" rel="noopener noreferrer">阮一峰博客</a></li><br>    <li><a href="http://evanyou.me" target="_blank" rel="noopener noreferrer">尤雨溪(Vue.js作者)</a></li><br></ul><br><h3>优质社区</h3><br><ul><br>    <li><a href="https://gold.xitu.io" target="_blank" rel="noopener noreferrer">掘金</a></li><br></ul><br><h3>工具</h3><br><ul><br>    <li><a href="https://docs.google.com" target="_blank" rel="noopener noreferrer">谷歌文档</a></li><br>    <li><a href="https://coggle.it/" target="_blank" rel="noopener noreferrer">思维导图</a></li><br>    <li><a href="https://www.iconfinder.com" target="_blank" rel="noopener noreferrer">图标搜索</a></li><br></ul>]]></content>
       
       
       <categories>
@@ -1974,22 +2031,22 @@
     
     
     <entry>
-      <title>categories</title>
-      <link href="/categories/index.html"/>
-      <url>/categories/index.html</url>
+      <title>关于</title>
+      <link href="/about/index.html"/>
+      <url>/about/index.html</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<p>农户，进城务工人员，北漂，程序员。</p><p>平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。</p><p>有幸相遇，与君共勉 ：</p><p>1.多读书，多思考，才会进步！</p><p>2.懂得知足和感恩，懂得体会生活的乐趣，一切才会有意义。</p><p>3.紧跟时代潮流，更新自己的思想和工具集。技术学习，不进则退。</p><p>4.生命不在于一时的璀璨，而在于长久的积累，所谓欲速则不达，今天的质量决定未来结果，一点一滴都影响深远。</p>]]></content>
       
     </entry>
     
     
     
     <entry>
-      <title>关于</title>
-      <link href="/about/index.html"/>
-      <url>/about/index.html</url>
+      <title>categories</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
       
-        <content type="html"><![CDATA[<p>农户，进城务工人员，北漂，程序员。</p><p>平时行事低调不爱吵吵，找个地方记点儿东西，没有别的目的。都是些想到哪儿说到哪儿的支言片语，不一定完整，也就当一个记事本，以备以后反思和总结。希望能多一些具体的人和事，少一些怨天尤人的心情，因为生活是真实的，心情是一时的，不管什么细枝末节的生活，留到未来某个时刻来回味，肯定又是另外一番感受。</p><p>有幸相遇，与君共勉 ：</p><p>1.多读书，多思考，才会进步！</p><p>2.懂得知足和感恩，懂得体会生活的乐趣，一切才会有意义。</p><p>3.紧跟时代潮流，更新自己的思想和工具集。技术学习，不进则退。</p><p>4.生命不在于一时的璀璨，而在于长久的积累，所谓欲速则不达，今天的质量决定未来结果，一点一滴都影响深远。</p>]]></content>
+        <content type="html"><![CDATA[]]></content>
       
     </entry>
     
