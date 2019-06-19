@@ -1682,7 +1682,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #74d1a4;
+  background: #95ffcb;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2828,8 +2828,8 @@ body {
   }
 }
 body {
-  background: #fcf3ca;
-/*background-image:url(/images/fuji.jpg);*/
+/*background:rgb(252, 243, 202);*/
+  background-image: url("/images/road.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 100% 100%;
