@@ -1682,7 +1682,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #95ffcb;
+  background: #ed4bff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2845,6 +2845,9 @@ body {
   font-family: Georgia, Times, "Times New Roman", serif !important;
   border-bottom: 2px solid rgba(68,68,68,0.2);
   text-align: left;
+}
+ul {
+  list-style-type: disc;
 }
 .page-home .posts-expand .post-title {
   padding-bottom: 0px;
