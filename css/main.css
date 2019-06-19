@@ -1682,7 +1682,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ed4bff;
+  background: #ff0eff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2890,7 +2890,7 @@ ul {
   background: rgba(255,252,239,0.99);
   font-family: 'Book Antiqua', 'Source Sans Pro', sans-serif;
   box-shadow: rgba(0,0,0,0.09) 0px 8px 16px 0px;
-  border-radius: 0px 0px 8px 8px;
+  border-radius: 0px 0px 0px 0px;
   width: 800px;
 }
 .header {
@@ -2963,4 +2963,8 @@ p.no-result {
 }
 .search-keyword {
   font-weight: normal;
+}
+.headband {
+  height: 50px;
+  background: transparent;
 }
