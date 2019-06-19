@@ -1682,7 +1682,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #90ffba;
+  background: #96ffff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2826,6 +2826,9 @@ body {
   .post-body {
     text-align: justify;
   }
+}
+body {
+  background-image: url("/images/road.jpg");
 }
 #local-search-input {
   display: block;
