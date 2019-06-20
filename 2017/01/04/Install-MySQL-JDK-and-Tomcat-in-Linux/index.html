@@ -1,0 +1,808 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="MySQL,Linux,Java,Tomcat,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="安装MySQL在官网http://dev.mysql.com/downloads/mysql#downloads选择合适您操作系统的版本进行下载， 这里以选择Linux Generic为例。  MySQL官网上只能下载到最新的版本，想要下载以前的版本找起来非常费劲。你可以从这里来下载:http://download.softagency.net/MySQL/Downloads/MySQL-5.5/">
+<meta name="keywords" content="MySQL,Linux,Java,Tomcat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Install MySQL,JDK and Tomcat in Linux">
+<meta property="og:url" content="http://blog.huqiao.me/2017/01/04/Install-MySQL-JDK-and-Tomcat-in-Linux/index.html">
+<meta property="og:site_name" content="0x7c00">
+<meta property="og:description" content="安装MySQL在官网http://dev.mysql.com/downloads/mysql#downloads选择合适您操作系统的版本进行下载， 这里以选择Linux Generic为例。  MySQL官网上只能下载到最新的版本，想要下载以前的版本找起来非常费劲。你可以从这里来下载:http://download.softagency.net/MySQL/Downloads/MySQL-5.5/">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-19T06:55:04.306Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Install MySQL,JDK and Tomcat in Linux">
+<meta name="twitter:description" content="安装MySQL在官网http://dev.mysql.com/downloads/mysql#downloads选择合适您操作系统的版本进行下载， 这里以选择Linux Generic为例。  MySQL官网上只能下载到最新的版本，想要下载以前的版本找起来非常费劲。你可以从这里来下载:http://download.softagency.net/MySQL/Downloads/MySQL-5.5/">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.huqiao.me/2017/01/04/Install-MySQL-JDK-and-Tomcat-in-Linux/">
+
+
+
+
+
+
+  <title> Install MySQL,JDK and Tomcat in Linux | 0x7c00 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b13ef012c32ee43fe12c462e5903105e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">0x7c00</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">A low level programmer</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          <form id="search-form">
+	    <input type="text" id="local-search-input" name="q" results="0" placeholder="搜索" class="search form-control" autocomplete="off" autocorrect="off">
+	    <i class="fa fa-times" onclick="resetSearch()"></i>
+	</form>
+	<div id="local-search-result"></div> 
+	<p class="no-result">No results found </p>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://blog.huqiao.me/2017/01/04/Install-MySQL-JDK-and-Tomcat-in-Linux/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="by 0x7c00">
+    <meta itemprop="description" content>
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="0x7c00">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="0x7c00" src>
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Install MySQL,JDK and Tomcat in Linux
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>辅导费辅导费
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-04T17:13:23+08:00">
+                2017-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+		  
+		  
+			  <span class="post-updated">
+				&nbsp; | &nbsp; 更新于
+				<time itemprop="dateUpdated" datetime="2019-06-19T14:55:04+08:00" content="2019-06-19">
+				  2019-06-19
+				</time>
+			  </span>
+		  
+
+          
+            <span class="post-category">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/运维/" itemprop="url" rel="index">
+                    <span itemprop="name">运维</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/01/04/Install-MySQL-JDK-and-Tomcat-in-Linux/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/04/Install-MySQL-JDK-and-Tomcat-in-Linux/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h1><p>在官网<a href="http://dev.mysql.com/downloads/mysql#downloads" target="_blank" rel="noopener">http://dev.mysql.com/downloads/mysql#downloads</a>选择合适您操作系统的版本进行下载， 这里以选择Linux Generic为例。</p>
+<blockquote>
+<p>MySQL官网上只能下载到最新的版本，想要下载以前的版本找起来非常费劲。你可以从这里来下载:<br><a href="http://download.softagency.net/MySQL/Downloads/MySQL-5.5/" target="_blank" rel="noopener">http://download.softagency.net/MySQL/Downloads/MySQL-5.5/</a></p>
+</blockquote>
+<p>把下载的文件上传到Linux某个临时文件夹里，然后解压文件，得到一个文件夹：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf mysql-5.5.45-linux2.6-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">drwxr-xr-x 13 root root      4096 Jan  3 20:09 mysql-5.5.53-linux2.6-x86_64</span><br><span class="line">-rw-r--r--  1 root root 185923648 Jan  3 20:00 mysql-5.5.53-linux2.6-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+<p>复制解压后的mysql目录到系统的本地软件目录:<br>执行命令：cp mysql-5.5.45-linux2.6-x86_64 /usr/local/mysql -r</p>
+<p>添加mysql用户和mysql用户组:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">groupadd mysql</span><br><span class="line">useradd -r -g mysql mysql</span><br></pre></td></tr></table></figure></p>
+<p>切换到/user/local/mysql目录下，改变mysql目录的用户和组：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/mysql/</span><br><span class="line">chown -R mysql:mysql ./</span><br></pre></td></tr></table></figure>
+<h2 id="安装数据库"><a href="#安装数据库" class="headerlink" title="安装数据库"></a>安装数据库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./scripts/mysql_install_db  --user=mysql --basedir=/usr/<span class="built_in">local</span>/mysql --datadir=/usr/<span class="built_in">local</span>/mysql/data --pid-file=/usr/<span class="built_in">local</span>/mysql/data/mysql.pid --tmpdir=/tmp</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果报cannot open shared object file错误，可以执行如下命令：<br>apt-get install libaio1 libaio-dev</p>
+</blockquote>
+<p>把mysql文件夹的所属组和所属用户修改为root：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R root:root ./</span><br></pre></td></tr></table></figure></p>
+<p>把data文件夹的所属组合所属用户修改为mysql：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R mysql:mysql data</span><br></pre></td></tr></table></figure></p>
+<p>最终效果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zegp7tdd3qrlnkeswi3Z install]<span class="comment"># cd /usr/local/</span></span><br><span class="line">[root@iZ2zegp7tdd3qrlnkeswi3Z <span class="built_in">local</span>]<span class="comment"># ll</span></span><br><span class="line">total 60</span><br><span class="line">drwxr-xr-x   6 root root 4096 Dec 30 17:36 aegis</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Jan  3 20:44 bin</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 etc</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 games</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 include</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 lib</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 lib64</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 libexec</span><br><span class="line">drwxr-xr-x  13 root root 4096 Jan  3 20:11 mysql</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 sbin</span><br><span class="line">drwxr-xr-x.  5 root root 4096 Aug 14  2014 share</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 src</span><br><span class="line">[root@iZ2zegp7tdd3qrlnkeswi3Z <span class="built_in">local</span>]<span class="comment"># cd mysql</span></span><br><span class="line">[root@iZ2zegp7tdd3qrlnkeswi3Z mysql]<span class="comment"># ll</span></span><br><span class="line">total 72</span><br><span class="line">drwxr-xr-x  2 root  root   4096 Jan  3 20:12 bin</span><br><span class="line">-rw-r--r--  1 root  root  17987 Jan  3 20:11 COPYING</span><br><span class="line">drwxr-xr-x  6 mysql mysql  4096 Jan  4 13:56 data</span><br><span class="line">drwxr-xr-x  2 root  root   4096 Jan  3 20:11 docs</span><br><span class="line">drwxr-xr-x  3 root  root   4096 Jan  3 20:11 include</span><br><span class="line">-rw-r--r--  1 root  root    301 Jan  3 20:11 INSTALL-BINARY</span><br><span class="line">drwxr-xr-x  3 root  root   4096 Jan  3 20:11 lib</span><br><span class="line">drwxr-xr-x  4 root  root   4096 Jan  3 20:11 man</span><br><span class="line">drwxr-xr-x 10 root  root   4096 Jan  3 20:11 mysql-test</span><br><span class="line">-rw-r--r--  1 root  root   2496 Jan  3 20:11 README</span><br><span class="line">drwxr-xr-x  2 root  root   4096 Jan  3 20:11 scripts</span><br><span class="line">drwxr-xr-x 27 root  root   4096 Jan  3 20:11 share</span><br><span class="line">drwxr-xr-x  4 root  root   4096 Jan  3 20:11 sql-bench</span><br><span class="line">drwxr-xr-x  2 root  root   4096 Jan  3 20:11 support-files</span><br></pre></td></tr></table></figure>
+<h2 id="添加开机启动"><a href="#添加开机启动" class="headerlink" title="添加开机启动"></a>添加开机启动</h2><p>执行命令把启动脚本放到开机初始化目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp support-files/mysql.server /etc/init.d/mysql</span><br></pre></td></tr></table></figure></p>
+<p>启动之前，需要修改mysql的编码为utf8：<br>1.找到mysql的配置文件，拷贝到etc目录下，把/usr/local/mysql/support-files/my-medium.cnf 复制到 /etc/my.cnf。即用命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/<span class="built_in">local</span>/mysql/support-files/my-medium.cnf  /etc/my.cnf</span><br></pre></td></tr></table></figure></p>
+<p>2.打开my.cnf修改编码<br>在[mysqld]下增加</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">character-set-server=utf8</span><br></pre></td></tr></table></figure>
+<p>启动mysql服务：执行命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysql start</span><br></pre></td></tr></table></figure></p>
+<p>修改MySQL的root用户密码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/mysqladmin -u root password <span class="string">'passw0rd'</span></span><br></pre></td></tr></table></figure></p>
+<p>把mysql客户端放到默认路径：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/<span class="built_in">local</span>/mysql/bin/mysql /usr/<span class="built_in">local</span>/bin/mysql</span><br></pre></td></tr></table></figure></p>
+<p>然后测试是否能顺利登录MySQL：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p[your password]</span><br></pre></td></tr></table></figure></p>
+<p>记得给MySQL添加开机启动：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/init.d/</span><br><span class="line">chkconfig --add mysql</span><br></pre></td></tr></table></figure>
+<h2 id="设置MySQL不区分大小写"><a href="#设置MySQL不区分大小写" class="headerlink" title="设置MySQL不区分大小写"></a>设置MySQL不区分大小写</h2><p>修改MySQL的配置文件my.cnf，在[mysqld]部分添加如下配置选项：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lower_case_table_names = 1</span><br></pre></td></tr></table></figure></p>
+<p>这是没有办法的办法，最好的办法还是应该严格按照规范执行。目前觉得最佳实践是SQL语句中的库名、表名、字段名等都用小写就没这些问题了。</p>
+<h2 id="定时备份任务"><a href="#定时备份任务" class="headerlink" title="定时备份任务"></a>定时备份任务</h2><p><a href="http://blog.huqiao.me/2017/01/05/MySQL-Backup/">参考这里</a>。</p>
+<h1 id="安装JDK"><a href="#安装JDK" class="headerlink" title="安装JDK"></a>安装JDK</h1><p>到官网下载合适的安装包，下载地址：<a href="http://www.oracle.com/technetwork/cn/java/javase/downloads/jdk7-downloads-1880260.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/cn/java/javase/downloads/jdk7-downloads-1880260.html</a>.</p>
+<blockquote>
+<p>和MySQL一样，因为JDK也是Oracle公司的，在官网也只提供最新版本的下载。我这里备份了一个：<a href="http://pan.baidu.com/s/1qYextPq" target="_blank" rel="noopener">http://pan.baidu.com/s/1qYextPq</a>。</p>
+</blockquote>
+<p>JDK的安装很简单，只需要将文件解压到/usr/local/中即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zegp7tdd3qrlnkeswi3Z <span class="built_in">local</span>]<span class="comment"># ll</span></span><br><span class="line">total 60</span><br><span class="line">drwxr-xr-x   6 root root 4096 Dec 30 17:36 aegis</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Jan  3 20:44 bin</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 etc</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 games</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 include</span><br><span class="line">drwxr-xr-x   8 root root 4096 Jan  4 11:56 jdk1.7.0_79</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 lib</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 lib64</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 libexec</span><br><span class="line">drwxr-xr-x  13 root root 4096 Jan  3 20:11 mysql</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 sbin</span><br><span class="line">drwxr-xr-x.  5 root root 4096 Aug 14  2014 share</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 src</span><br></pre></td></tr></table></figure>
+<p>最要的是设置环境变量。<br>本编辑器gedit（如果没安装可以用vi）打开/etc/profile，在文件最后添加<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/<span class="built_in">local</span>/jdk1.7.0_79</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span></span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar</span><br></pre></td></tr></table></figure></p>
+<p>保存后重新编译/etc/profile文件，测试Java是否可用:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zegp7tdd3qrlnkeswi3Z <span class="built_in">local</span>]<span class="comment"># java -version</span></span><br><span class="line">java version <span class="string">"1.7.0_79"</span></span><br><span class="line">Java(TM) SE Runtime Environment (build 1.7.0_79-b15)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)</span><br></pre></td></tr></table></figure>
+<h1 id="安装Tomcat"><a href="#安装Tomcat" class="headerlink" title="安装Tomcat"></a>安装Tomcat</h1><p>Tomcat的下载就不用多说了，可以在<a href="http://tomcat.apache.org/" target="_blank" rel="noopener">官网</a>找到下载链接。也可以使用这个镜像地址：<a href="http://archive.apache.org/dist/tomcat/" target="_blank" rel="noopener">http://archive.apache.org/dist/tomcat/</a>。</p>
+<p>也和MySQL、JDK一样，解压到local目录中即可：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">drwxr-xr-x   6 root root 4096 Dec 30 17:36 aegis</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Jan  3 20:44 bin</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 etc</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 games</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 include</span><br><span class="line">drwxr-xr-x   8 root root 4096 Jan  4 11:56 jdk1.7.0_79</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 lib</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 lib64</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 libexec</span><br><span class="line">drwxr-xr-x  13 root root 4096 Jan  3 20:11 mysql</span><br><span class="line">drwxr-xr-x  10 root root 4096 Jan  4 16:43 NitsmUpload</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 sbin</span><br><span class="line">drwxr-xr-x.  5 root root 4096 Aug 14  2014 share</span><br><span class="line">drwxr-xr-x.  2 root root 4096 Sep 23  2011 src</span><br><span class="line">drwxr-xr-x  10 root root 4096 Jan  4 13:50 tomcat-8.0.36</span><br></pre></td></tr></table></figure></p>
+<h2 id="为Tomcat添加开机启动项"><a href="#为Tomcat添加开机启动项" class="headerlink" title="为Tomcat添加开机启动项"></a>为Tomcat添加开机启动项</h2><p>进入tomcat-8.0.36/bin目录中；<br>修改catalina.sh文件，在export处增加如下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CATALINA_HOME=/usr/<span class="built_in">local</span>/tomcat-8.0.36</span><br><span class="line">JAVA_HOME=/usr/<span class="built_in">local</span>/jdk1.7.0_79</span><br></pre></td></tr></table></figure></p>
+<p>创建catalina.sh链接到/etc/init.d中：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/<span class="built_in">local</span>/apache-tomcat-7.0.63/bin/catalina.sh  /etc/init.d/tomcat</span><br></pre></td></tr></table></figure></p>
+<p>添加到自动服务<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update-rc.d  –f  tomcat  defaults（删除 defaults 换成remove）</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用chkconfig添加开机启动"><a href="#使用chkconfig添加开机启动" class="headerlink" title="使用chkconfig添加开机启动"></a>使用chkconfig添加开机启动</h2><p>在/etc/init.d/下创建tomcat文件，内容为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># description: Tomcat Start Stop Restart  </span></span><br><span class="line"><span class="comment"># processname: tomcat  </span></span><br><span class="line"><span class="comment"># chkconfig: 234 20 80  </span></span><br><span class="line">JAVA_HOME=/usr/<span class="built_in">local</span>/java/jdk1.7.0_79  </span><br><span class="line"><span class="built_in">export</span> JAVA_HOME  </span><br><span class="line">PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span>  </span><br><span class="line"><span class="built_in">export</span> PATH  </span><br><span class="line">CATALINA_HOME=/usr/apache-tomcat-8.0.36  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span>  </span><br><span class="line">start)  </span><br><span class="line">sh <span class="variable">$CATALINA_HOME</span>/bin/startup.sh  </span><br><span class="line">;;   </span><br><span class="line">stop)     </span><br><span class="line">sh <span class="variable">$CATALINA_HOME</span>/bin/shutdown.sh  </span><br><span class="line">;;   </span><br><span class="line">restart)  </span><br><span class="line">sh <span class="variable">$CATALINA_HOME</span>/bin/shutdown.sh  </span><br><span class="line">sh <span class="variable">$CATALINA_HOME</span>/bin/startup.sh  </span><br><span class="line">;;   </span><br><span class="line"><span class="keyword">esac</span>      </span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure></p>
+<p>执行如下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chkconfig –add tomcat</span><br><span class="line">chkconfig –level 2345 tomcat on</span><br></pre></td></tr></table></figure></p>
+<h2 id="修改Tomcat默认编码为UTF8"><a href="#修改Tomcat默认编码为UTF8" class="headerlink" title="修改Tomcat默认编码为UTF8"></a>修改Tomcat默认编码为UTF8</h2><p>修改/usr/local/apache-tomcat-8.0.36/conf/server.xml文件：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"80"</span> <span class="attr">protocol</span>=<span class="string">"HTTP/1.1"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">connectionTimeout</span>=<span class="string">"20000"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">redirectPort</span>=<span class="string">"8443"</span> <span class="attr">URIEncoding</span>=<span class="string">"UTF-8"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="设置内存"><a href="#设置内存" class="headerlink" title="设置内存"></a>设置内存</h2><p>要添加在tomcat 的bin 下catalina.sh 里，位置cygwin=false前 。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">JAVA_OPTS=<span class="string">"-Xms256m -Xmx512m -Xss1024K -XX:PermSize=128m -XX:MaxPermSize=256m"</span> </span><br><span class="line">cygwin=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Tomcat8容易遇到启动缓慢的问题，参考<a href="http://nobodyiam.com/2016/06/07/tomcat-startup-slow/" target="_blank" rel="noopener">Tomcat启动缓慢问题解决</a>。</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/wechat_qcode.jpg" alt="by 0x7c00 wechat" style="width: 200px; max-width: 100%;">
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Tomcat/" rel="tag"># Tomcat</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/21/hibernate-multitendency/" rel="next" title="基于Hibernate实现多租户（Multi-Tendency）功能">
+                <i class="fa fa-chevron-left"></i> 基于Hibernate实现多租户（Multi-Tendency）功能
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="by 0x7c00">
+          <p class="site-author-name" itemprop="name">by 0x7c00</p>
+          <p class="site-description motion-element" itemprop="description">..</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装MySQL"><span class="nav-number">1.</span> <span class="nav-text">安装MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装数据库"><span class="nav-number">1.1.</span> <span class="nav-text">安装数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加开机启动"><span class="nav-number">1.2.</span> <span class="nav-text">添加开机启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置MySQL不区分大小写"><span class="nav-number">1.3.</span> <span class="nav-text">设置MySQL不区分大小写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定时备份任务"><span class="nav-number">1.4.</span> <span class="nav-text">定时备份任务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装JDK"><span class="nav-number">2.</span> <span class="nav-text">安装JDK</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装Tomcat"><span class="nav-number">3.</span> <span class="nav-text">安装Tomcat</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为Tomcat添加开机启动项"><span class="nav-number">3.1.</span> <span class="nav-text">为Tomcat添加开机启动项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用chkconfig添加开机启动"><span class="nav-number">3.2.</span> <span class="nav-text">使用chkconfig添加开机启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改Tomcat默认编码为UTF8"><span class="nav-number">3.3.</span> <span class="nav-text">修改Tomcat默认编码为UTF8</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置内存"><span class="nav-number">3.4.</span> <span class="nav-text">设置内存</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2010 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-globe"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zoozle@qq.com</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'huqiaos-blog';
+      var disqus_identifier = '2017/01/04/Install-MySQL-JDK-and-Tomcat-in-Linux/';
+
+      var disqus_title = "Install MySQL,JDK and Tomcat in Linux";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript" src="/js/src/hexo-search.js"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+ 
+
+</body>
+</html>
