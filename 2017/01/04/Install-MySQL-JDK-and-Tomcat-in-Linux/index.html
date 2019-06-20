@@ -84,7 +84,7 @@
 <meta name="keywords" content="MySQL,Linux,Java,Tomcat">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Install MySQL,JDK and Tomcat in Linux">
-<meta property="og:url" content="http://blog.huqiao.me/2017/01/04/Install-MySQL-JDK-and-Tomcat-in-Linux/index.html">
+<meta property="og:url" content="http://huqiao.me/2017/01/04/Install-MySQL-JDK-and-Tomcat-in-Linux/index.html">
 <meta property="og:site_name" content="0x7c00">
 <meta property="og:description" content="安装MySQL在官网http://dev.mysql.com/downloads/mysql#downloads选择合适您操作系统的版本进行下载， 这里以选择Linux Generic为例。  MySQL官网上只能下载到最新的版本，想要下载以前的版本找起来非常费劲。你可以从这里来下载:http://download.softagency.net/MySQL/Downloads/MySQL-5.5/">
 <meta property="og:locale" content="zh-Hans">
@@ -119,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.huqiao.me/2017/01/04/Install-MySQL-JDK-and-Tomcat-in-Linux/">
+  <link rel="canonical" href="http://huqiao.me/2017/01/04/Install-MySQL-JDK-and-Tomcat-in-Linux/">
 
 
 
@@ -288,7 +288,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://blog.huqiao.me/2017/01/04/Install-MySQL-JDK-and-Tomcat-in-Linux/">
+  <link itemprop="mainEntityOfPage" href="http://huqiao.me/2017/01/04/Install-MySQL-JDK-and-Tomcat-in-Linux/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="by 0x7c00">
@@ -426,7 +426,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/init.d/</span><br><span class="line">chkconfig --add mysql</span><br></pre></td></tr></table></figure>
 <h2 id="设置MySQL不区分大小写"><a href="#设置MySQL不区分大小写" class="headerlink" title="设置MySQL不区分大小写"></a>设置MySQL不区分大小写</h2><p>修改MySQL的配置文件my.cnf，在[mysqld]部分添加如下配置选项：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lower_case_table_names = 1</span><br></pre></td></tr></table></figure></p>
 <p>这是没有办法的办法，最好的办法还是应该严格按照规范执行。目前觉得最佳实践是SQL语句中的库名、表名、字段名等都用小写就没这些问题了。</p>
-<h2 id="定时备份任务"><a href="#定时备份任务" class="headerlink" title="定时备份任务"></a>定时备份任务</h2><p><a href="http://blog.huqiao.me/2017/01/05/MySQL-Backup/">参考这里</a>。</p>
+<h2 id="定时备份任务"><a href="#定时备份任务" class="headerlink" title="定时备份任务"></a>定时备份任务</h2><p><a href="http://blog.huqiao.me/2017/01/05/MySQL-Backup/" target="_blank" rel="noopener">参考这里</a>。</p>
 <h1 id="安装JDK"><a href="#安装JDK" class="headerlink" title="安装JDK"></a>安装JDK</h1><p>到官网下载合适的安装包，下载地址：<a href="http://www.oracle.com/technetwork/cn/java/javase/downloads/jdk7-downloads-1880260.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/cn/java/javase/downloads/jdk7-downloads-1880260.html</a>.</p>
 <blockquote>
 <p>和MySQL一样，因为JDK也是Oracle公司的，在官网也只提供最新版本的下载。我这里备份了一个：<a href="http://pan.baidu.com/s/1qYextPq" target="_blank" rel="noopener">http://pan.baidu.com/s/1qYextPq</a>。</p>

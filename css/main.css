@@ -1682,7 +1682,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffff1f;
+  background: #ff9aff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2970,5 +2970,16 @@ p.no-result {
   }
   .container .main-inner {
     width: 1060px;
+  }
+}
+.post-updated {
+  display: none;
+}
+@media (max-width: 991px) and (min-width: 768px) {
+  .post-meta-item-icon {
+    display: none;
+  }
+  .post-meta-item-text {
+    display: inline-block;
   }
 }
